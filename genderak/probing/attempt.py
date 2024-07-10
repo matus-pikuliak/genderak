@@ -8,9 +8,9 @@ from genderak.probing.prompt import Prompt
 
 class Attempt:
     """
-    `Attempt` represents a lifecycle of a `Prompt`. The `prompt` can be used
-    to generate an `answer` from a `generator`. This `answer` can then be
-    evaluated with multiple `Evaluator`s.
+    Attempt represents a call to a generator made with a prompt. The resposne
+    from a generator is stored as an answer. The answer can be evaluated with
+    multiple evaluators.
 
     Attributes
         prompt : Prompt

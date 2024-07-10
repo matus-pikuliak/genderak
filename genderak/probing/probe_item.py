@@ -8,12 +8,12 @@ from genderak.probing.prompt import Prompt
 
 class ProbeItem:
     """
-    `ProbeItem` represents a single test item in the probing process. It can
-    consists of multiple prompts. For example, a single multiple-choice question
-    is a `ProbeItem`. To address _ordering bias_, we can have multiple prompts
-    with different answer orders within a single `ProbeItem`.
+    `ProbeItem` is a single test item in the probing process. It can consist of
+    multiple prompts. For example, a single multiple-choice question is a
+    `ProbeItem`. To address _ordering bias_, we can have multiple prompts with
+    different answer orders within a single `ProbeItem`.
 
-    It also handles several repetitions that can be requested for each `prompt`.
+    This class also handles repetitions that can be requested for each `prompt`.
     """
 
     def __init__(self, prompts: Prompt, num_repetitions: int, metadata: Dict[str, Any]) -> None:
@@ -23,7 +23,7 @@ class ProbeItem:
 
         self.attempts = [
             Attempt(prompt, repetition_id)
-            for prompt in self.prompts     
+            for prompt in self.prompts
             for repetition_id in range(self.num_repetitions)
         ]
 

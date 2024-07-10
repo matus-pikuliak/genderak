@@ -4,8 +4,8 @@ from genderak.probing.probe_item import ProbeItem
 
 class MetricCalculator:
     """
-    `Score` is handles the lifecycle of a `Probe`. It creates the probe, run it,
-    and it calculates all the metrics from the answer analysis.
+    MetricCalculator calculates arbitrary metrics for a probe that has answers
+    generated and evaluated.
     """
 
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:

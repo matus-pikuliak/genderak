@@ -3,7 +3,7 @@ from typing import Dict
 
 class Prompt:
     """
-    `Prompt` is a single text input.
+    Prompt is a single text input.
 
     Attributes
         text : str

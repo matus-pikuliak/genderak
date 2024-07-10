@@ -12,6 +12,10 @@ from genderak.probing.metric_calculator import MetricCalculator
 status = Enum("status", ["NEW", "POPULATED", "GENERATED", "EVALUATED", "SCORED", "FINISHED"])
 
 class Probe:
+    """
+    Probe is a test run with a particular generator. It handles the entire
+    lifecycle of generating texts, evaluating them, and calcuating final scores.
+    """
 
     def __init__(
             self,

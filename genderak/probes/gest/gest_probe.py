@@ -42,7 +42,7 @@ class GestProbe(Probe):
         ]
 
     def create_probe_item(self, df_tuple):
-        options = (GestOptions.MALE, GestOptions.FEMALE, GestOptions.UNKNOWN)
+        options = (GestOptions.MALE, GestOptions.FEMALE, GestOptions.NEITHER)
         option_permutations = random.sample(
             list(itertools.permutations(options)),
             k=self.num_reorder,
