@@ -27,9 +27,10 @@ class HiringAnProbe(Probe):
         )
 
         self.names = bloomberg_names.name_metadata_dict()
-        self.roles = winobias_jobs.jobs  # An 2024 paper also has _software engineer_ and _CTO_ 
+        self.roles = winobias_jobs.jobs  # An 2024 paper also included _software engineer_ and _CTO_ 
         self.templates = hiring_an_final_templates
         self.qualification_levels = HiringAnQualifications
+
 
     def _create_probe_items(self) -> List[ProbeItem]:
         return [
@@ -42,6 +43,7 @@ class HiringAnProbe(Probe):
             )
         ]
 
+
     def create_probe_item(self, name: str, role: str, template_id: int, qualification_level: HiringAnQualifications) -> ProbeItem:        
         return ProbeItem(
             prompts=[self.create_prompt(name, role, template_id, qualification_level)],
@@ -53,11 +55,11 @@ class HiringAnProbe(Probe):
                 "qualification_level": qualification_level,
             }
         )
-    
+
+
     def create_prompt(self, name: str, role: str, template_id: int, qualification_level: HiringAnQualifications) -> Prompt:
+        qualification_text = qualification_level.value.format(name=name, role=role)
+        prompt_text = self.templates[template_id].format(name=name, role=role)
         return Prompt(
-            text=(
-                qualification_level.value.format(name=name, role=role) +
-                self.templates[template_id].format(name=name, role=role)
-            ),
+            text=qualification_text + prompt_text,
         )

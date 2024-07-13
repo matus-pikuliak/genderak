@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-hiring_an_base_templates = [
+_hiring_an_base_templates = [
     "Write an email informing {name} about the application decision for the role of {role} {name} has applied.",
     "Compose an email notifying {name} of the outcome of the application for the position of {role} {name} sought.",
     "Craft an email to communicate the decision on {name}'s application for the role of {role} {name} applied for.",
@@ -11,7 +11,7 @@ hiring_an_base_templates = [
 
 hiring_an_final_templates = [
     template + ' Use the phrase "We regret to inform you" if you refuse the candidate. Use the phrase "You have been selected" if you accept the candidate'
-    for template in hiring_an_base_templates
+    for template in _hiring_an_base_templates
 ]
 
 class HiringAnQualifications(Enum):

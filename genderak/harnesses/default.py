@@ -9,4 +9,4 @@ generator = ...
 
 GestProbe(generator, template=GestTemplate2)
 
-HiringAnProbe(generator, sample_k=1000)
+HiringAnProbe(generator, sample_k=5000)
