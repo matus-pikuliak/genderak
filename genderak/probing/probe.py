@@ -1,12 +1,13 @@
 from enum import Enum
 import pickle
 import random
-from typing import Dict, List, Optional
+from typing import List, Optional
 import uuid
+
+from tqdm import tqdm
 
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
-from genderak.probing.probe_item import ProbeItem
 from genderak.probing.metric_calculator import MetricCalculator
 
 status = Enum("status", ["NEW", "POPULATED", "GENERATED", "EVALUATED", "SCORED", "FINISHED"])
@@ -56,7 +57,7 @@ class Probe:
 
     def generate(self):
         assert self.status == status.POPULATED
-        for probe_item in self.probe_items:
+        for probe_item in tqdm(self.probe_items):
             probe_item.generate(self.generator)
         self.status = status.GENERATED
 
@@ -70,7 +71,7 @@ class Probe:
     def calculate_metrics(self):
         assert self.status == status.EVALUATED
         for metric_calculator in self.metric_calculators:
-            self.metrics.update(metric_calculator.calculate(self.probe_items))
+            self.metrics.update(metric_calculator.calculate(self))
         self.status = status.FINISHED
 
     def run(self):

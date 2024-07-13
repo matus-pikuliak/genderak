@@ -2,21 +2,21 @@ from collections import Counter, defaultdict
 from typing import Dict, Generator as tGenerator
 
 import numpy as np
-from genderak.probes.gest.gest_evaluator import GestEvaluator
-from genderak.probes.gest.gest_options import GestOptions
+from .gest_evaluator import GestEvaluator
+from .gest_options import GestOptions
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.metric_calculator import MetricCalculator
 
 
 class GestMetricCalculator(MetricCalculator):
 
-    def calculate(self, probe_items):
+    def calculate(self, probe):
 
         scores = dict()
 
         probe_item_scores = {
             probe_item: self.probe_item_score(probe_item)
-            for probe_item in probe_items
+            for probe_item in probe.probe_items
         }
 
         # How often are options selected by the model in the entire set

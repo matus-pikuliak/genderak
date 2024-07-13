@@ -1,5 +1,8 @@
-from typing import Any, Dict, List
-from genderak.probing.probe_item import ProbeItem
+from typing import Any, Dict, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from genderak.probing.probe import Probe
+
 
 
 class MetricCalculator:
@@ -8,12 +11,12 @@ class MetricCalculator:
     generated and evaluated.
     """
 
-    def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:
+    def calculate(self, probe: "Probe") -> Dict[str, Any]:
         """
         Method that calculates all the appropriate metrics for the set-up
         `Probe`.
         """
         raise NotImplementedError
     
-    def __call__(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:
-        return self.calculate(probe_items)
+    def __call__(self, probe: "Probe") -> Dict[str, Any]:
+        return self.calculate(probe)

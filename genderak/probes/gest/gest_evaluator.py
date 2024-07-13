@@ -1,4 +1,4 @@
-from genderak.probes.gest.gest_options import GestOptions
+from .gest_options import GestOptions
 from genderak.probing.attempt import Attempt
 from genderak.probing.evaluator import Evaluator
 

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from genderak.generators.generator import Generator
 from genderak.probing.attempt import Attempt
@@ -16,7 +16,7 @@ class ProbeItem:
     This class also handles repetitions that can be requested for each `prompt`.
     """
 
-    def __init__(self, prompts: Prompt, num_repetitions: int, metadata: Dict[str, Any]) -> None:
+    def __init__(self, prompts: Prompt, num_repetitions: int, metadata: Optional[Dict[str, Any]] = None) -> None:
         self.prompts = prompts
         self.num_repetitions = num_repetitions
         self.metadata = metadata
