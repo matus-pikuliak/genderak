@@ -22,7 +22,7 @@ class HiringAnProbe(Probe):
         super().__init__(
             generator=generator,
             evaluators=[HiringAnEvaluator()],
-            metric_calculators=[HiringAnMetricCalculator()],
+            metric_calculators=[HiringAnMetricCalculator(self)],
             **kwargs
         )
 

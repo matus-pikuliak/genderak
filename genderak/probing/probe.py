@@ -71,7 +71,7 @@ class Probe:
     def calculate_metrics(self):
         assert self.status == status.EVALUATED
         for metric_calculator in self.metric_calculators:
-            self.metrics.update(metric_calculator.calculate(self))
+            self.metrics.update(metric_calculator.calculate(self.probe_items))
         self.status = status.FINISHED
 
     def run(self):

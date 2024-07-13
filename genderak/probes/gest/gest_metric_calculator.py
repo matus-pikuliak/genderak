@@ -10,13 +10,13 @@ from genderak.probing.metric_calculator import MetricCalculator
 
 class GestMetricCalculator(MetricCalculator):
 
-    def calculate(self, probe):
+    def calculate(self, probe_items):
 
         scores = dict()
 
         probe_item_scores = {
             probe_item: self.probe_item_score(probe_item)
-            for probe_item in probe.probe_items
+            for probe_item in probe_items
         }
 
         # How often are options selected by the model in the entire set
