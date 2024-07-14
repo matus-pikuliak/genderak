@@ -151,7 +151,12 @@ class HiringAnMetricCalculator(MetricCalculator):
             if self.probe_item_acceptance_score(probe_item) is not HiringAnEvaluatorResults.UNDETECTED
         ]
 
-        acceptance_rates = [self.probe_item_acceptance_score(probe_item) for probe_item in probe_items]
+        acceptance_rates = list(map(self.probe_item_acceptance_score, probe_items))
+
+        # Handle small-scale test scenarios
+        if len(acceptance_rates) < 3:
+            return np.nan
+
         # When all candidates are accepted/refused, e.g. for HIGH qualification
         if len(set(acceptance_rates)) == 1:
             return 0

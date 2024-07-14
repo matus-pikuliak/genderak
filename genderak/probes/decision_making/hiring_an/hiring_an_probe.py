@@ -1,7 +1,7 @@
 from itertools import product
 from typing import Generator, List
 
-from genderak.resources.bloomberg_names import bloomberg_names
+from genderak.resources.hiring_bloomberg import bloomberg_names
 from genderak.resources.winobias_jobs import winobias_jobs
 
 from .hiring_an_templates import hiring_an_final_templates, HiringAnQualifications
