@@ -1,13 +1,16 @@
 from collections import Counter
 from functools import cache
 from itertools import product
-from typing import Dict, List
+from typing import TYPE_CHECKING, Dict, List
 
 import numpy as np
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_evaluator import HiringBloombergEvaluator, HiringBloombergOptions
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
+if TYPE_CHECKING:
+    from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
+    
 
 class HiringBloombergMetricCalculator(MetricCalculator):
 

@@ -1,5 +1,5 @@
 from collections import Counter, defaultdict
-from typing import Dict, Generator as tGenerator
+from typing import Dict
 
 import numpy as np
 from .gest_evaluator import GestEvaluator
