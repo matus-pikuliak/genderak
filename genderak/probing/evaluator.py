@@ -1,4 +1,7 @@
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from genderak.probing.attempt import Attempt
 
 
 class Evaluator:
@@ -10,8 +13,8 @@ class Evaluator:
     an attempt.
     """
 
-    def evaluate(self, attempt) -> Any:
+    def evaluate(self, attempt: "Attempt") -> Any:
         raise NotImplementedError
 
-    def __call__(self, attempt) -> Any:
+    def __call__(self, attempt: "Attempt") -> Any:
         return self.evaluate(attempt)
