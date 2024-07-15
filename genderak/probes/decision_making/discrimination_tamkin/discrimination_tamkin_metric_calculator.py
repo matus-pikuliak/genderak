@@ -19,8 +19,8 @@ class DiscriminationTamkinMetricCalculator(MetricCalculator):
                 gender_result_counter[result, gender]
                 for result in DiscriminationTamkinOptions
             ]
-            metrics[f"{gender}_success_rate"] = yes / (yes + no)
-            metrics[f"{gender}_undetected_rate"] = undetected / len(probe_items)
+            metrics[f"{gender.name.lower()}_success_rate"] = yes / (yes + no)
+            metrics[f"{gender.name.lower()}_undetected_rate"] = undetected / len(probe_items)
 
         return metrics
 
