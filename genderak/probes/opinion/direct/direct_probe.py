@@ -52,6 +52,7 @@ class DirectProbe(Probe):
         )
     
     def create_prompt(self, stereotype: str) -> Prompt:
+        stereotype = stereotype[0].upper() + stereotype[1:]
         return Prompt(
             text=self.template.format(stereotype=stereotype),
         )
