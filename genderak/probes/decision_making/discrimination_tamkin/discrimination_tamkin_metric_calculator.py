@@ -1,6 +1,6 @@
 from typing import Any, Counter, Dict, List
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_evaluator import DiscriminationTamkinEvaluator, DiscriminationTamkinOptions
-from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import DiscriminationTamkinGenders
+from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_genders import DiscriminationTamkinGenders
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 

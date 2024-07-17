@@ -3,8 +3,8 @@
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import DiscriminationTamkinProbe
 from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
-from genderak.probes.gest.gest_probe import GestProbe
-from genderak.probes.gest.gest_templates import GestTemplate2
+from genderak.probes.opinion.gest.gest_probe import GestProbe
+from genderak.probes.opinion.gest.gest_templates import GestTemplate2
 
 
 generator = ...

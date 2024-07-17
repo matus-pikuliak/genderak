@@ -3,21 +3,18 @@ from typing import List, Tuple
 
 import pandas as pd
 
+from genderak.generators.generator import Generator
+from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_genders import DiscriminationTamkinGenders
+
 from .discrimination_tamkin_evaluator import DiscriminationTamkinEvaluator
 from .discrimination_tamkin_metric_calculator import DiscriminationTamkinMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
 
-
-class DiscriminationTamkinGenders(Enum):
-    FEMALE = 1
-    MALE = 2
-    NONBINARY = 3
-
 class DiscriminationTamkinProbe(Probe):
 
-    def __init__(self, generator, **kwargs):
+    def __init__(self, generator: Generator, **kwargs):
         super().__init__(
             generator,
             evaluators=[DiscriminationTamkinEvaluator()],

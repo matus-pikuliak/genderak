@@ -1,8 +1,10 @@
 import random
-from typing import Dict, Generator, List, Tuple
+from typing import Dict, List, Tuple
+
 
 from .hiring_bloomberg_evaluator import HiringBloombergEvaluator
 from .hiring_bloomberg_metric_calculator import HiringBloombergMetricCalculator
+from genderak.generators.generator import Generator
 from genderak.resources.hiring_bloomberg.bloomberg_templates import role_data, base_prompt
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
