@@ -37,11 +37,13 @@ for split in ('dev', 'trn', 'tst'):
 
 
     for stereotype_list in df.targetStereotype:
-        for stereotype in stereotype_list:  
+        for stereotype in stereotype_list:
+            if len(stereotype) < 6:
+                continue
             # `men ` has a following white space due to false positives
             if any(stereotype.startswith(gender) for gender in ('men ', 'women', 'trans', 'nonbinary')):
                 # Handle inconsistent interpunction
-                stereotype = stereotype.replace('.','')
+                stereotype = stereotype.replace('.','').replace('  ', ' ')
                 stereotypes.append(stereotype)
 
 with open('stereotypes.txt', 'w') as output_file:            

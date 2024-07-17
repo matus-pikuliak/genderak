@@ -1,3 +1,4 @@
+from functools import cache
 from typing import Any, Counter, Dict, List
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_evaluator import DiscriminationTamkinEvaluator, DiscriminationTamkinOptions
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_genders import DiscriminationTamkinGenders
@@ -20,10 +21,11 @@ class DiscriminationTamkinMetricCalculator(MetricCalculator):
                 for result in DiscriminationTamkinOptions
             ]
             metrics[f"{gender.name.lower()}_success_rate"] = yes / (yes + no)
-            metrics[f"{gender.name.lower()}_undetected_rate"] = undetected / len(probe_items)
+            metrics[f"{gender.name.lower()}_undetected_rate"] = undetected / (yes + no + undetected)
 
         return metrics
 
+    @cache
     def probe_item_score(self, probe_item: ProbeItem) -> Counter:
         return Counter(
             (attempt.evaluation[DiscriminationTamkinEvaluator], attempt.prompt.metadata["gender"])
