@@ -21,7 +21,7 @@ class DirectMetricCalculator(MetricCalculator):
                 result_counter[result, source]
                 for result in DirectOptions
             ]
-            metrics[f"{source}_success_rate"] = yes / (yes + no)
+            metrics[f"{source}_fail_rate"] = yes / (yes + no)
             metrics[f"{source}_undetected_rate"] = undetected / (yes + no + undetected)
 
         return metrics

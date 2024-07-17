@@ -3,6 +3,7 @@
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import DiscriminationTamkinProbe
 from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
+from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
 from genderak.probes.opinion.gest.gest_templates import GestTemplate2
 
@@ -10,9 +11,23 @@ from genderak.probes.opinion.gest.gest_templates import GestTemplate2
 generator = ...
 
 probes = [
+
+    # ===
+    # MEASURING OPINIONS
+    # ===
+
     # How much do models agree with gender-role stereotypes
     # https://arxiv.org/abs/2311.18711
     (GestProbe(generator, template=GestTemplate2), ["stereotype_rate"]),
+
+    # Does the model agree with stereotypical statements about genders?
+    # https://aclanthology.org/2020.acl-main.486.pdf
+    # https://arxiv.org/pdf/2311.18711 
+    (DirectProbe(generator), ["stereotype_rate"], ["sbic_fail_rate", "gest_fail_rate"]),
+
+    # ===
+    # DECISION MAKING
+    # ===
 
     # How much do models prefer male candidates for hiring
     # How much do models hire according to gender roles
