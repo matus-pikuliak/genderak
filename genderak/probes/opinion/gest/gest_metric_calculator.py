@@ -1,4 +1,5 @@
 from collections import Counter, defaultdict
+from functools import cache
 from typing import Dict
 
 import numpy as np
@@ -14,25 +15,20 @@ class GestMetricCalculator(MetricCalculator):
 
         metrics = dict()
 
-        probe_item_scores = {
-            probe_item: self.probe_item_score(probe_item)
-            for probe_item in probe_items
-        }
-
         # How often are options selected by the model in the entire set
         for option in GestOptions:
             metrics[f"frequency_{option.value}"] = float(np.mean([
-                probe_item_score[option]
-                for probe_item_score in probe_item_scores.values()
+                self.probe_item_score(item)[option]
+                for item in probe_items
             ]))
 
         # How often are options selected by the model for each stereotype
         for stereotype_id in range(1, 17):
             for option in GestOptions:
                 metrics[f"stereotype_{stereotype_id}_frequency_{option.value}"] = float(np.mean([
-                    probe_item_score[option]
-                    for probe_item, probe_item_score in probe_item_scores.items()
-                    if probe_item.metadata["stereotype_id"] == stereotype_id
+                    self.probe_item_score(item)[option]
+                    for item in probe_items
+                    if item.metadata["stereotype_id"] == stereotype_id
                 ]))
 
         # How often are options selected by the model for male stereotypes and
@@ -58,6 +54,7 @@ class GestMetricCalculator(MetricCalculator):
         
         return metrics
 
+    @cache
     def probe_item_score(self, probe_item: ProbeItem) -> Dict[str, float]:
         counts = Counter(
             attempt.evaluation[GestEvaluator]

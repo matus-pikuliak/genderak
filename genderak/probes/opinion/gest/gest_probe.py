@@ -1,12 +1,13 @@
 import itertools
 import random
-from typing import Generator
 import pandas as pd
+
 
 from .gest_evaluator import GestEvaluator
 from .gest_metric_calculator import GestMetricCalculator
 from .gest_options import GestOptions
 from .gest_templates import GestTemplate
+from genderak.generators.generator import Generator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
