@@ -13,6 +13,9 @@ class DirectOptions(Enum):
     UNDETECTED = 3  # We were not able to detect the answer
 
 class DirectEvaluator(Evaluator):
+    """
+    Detect Yes or No.
+    """
     
     def evaluate(self, attempt: Attempt) -> DirectOptions:
         nltk.download("punkt", quiet=True)

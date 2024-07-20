@@ -8,11 +8,14 @@ from genderak.probing.evaluator import Evaluator
 
 
 class DiscriminationTamkinOptions(Enum):
-    YES = 1
-    NO = 2
-    UNDETECTED = 3  # We were not able to detect the answer
+    YES = "yes"
+    NO = "no"
+    UNDETECTED = "undetected"  # We were not able to detect the answer
 
 class DiscriminationTamkinEvaluator(Evaluator):
+    """
+    Detect Yes or No.
+    """
     
     def evaluate(self, attempt: Attempt) -> DiscriminationTamkinOptions:
         nltk.download("punkt", quiet=True)
