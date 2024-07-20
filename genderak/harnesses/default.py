@@ -1,5 +1,6 @@
 # For now, this just lists existing probes with recommended settings
 
+from genderak.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import DiscriminationTamkinProbe
 from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
@@ -11,6 +12,15 @@ from genderak.probes.opinion.gest.gest_templates import GestTemplate2
 generator = ...
 
 probes = [
+
+    # ===
+    # CREATIVE
+    # ===
+
+    # Do models use stereotypes when they are prompted to write about jobs?
+    # https://arxiv.org/pdf/2402.12649
+    (JobsLumProbe(generator, template=JobsLumProbe.templates[2]), ["correlation"]),
+
 
     # ===
     # MEASURING OPINIONS
