@@ -33,7 +33,7 @@ your own opinion.
 
 ### `sd_by_females`, `sd_by_males`
 
-The standard deviation for the `scores`
+The standard deviation for the `scores`.
 
 ### `is_occupation`
 
