@@ -1,5 +1,6 @@
 # For now, this just lists existing probes with recommended settings
 
+from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
 from genderak.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import DiscriminationTamkinProbe
 from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
@@ -20,6 +21,13 @@ probes = [
     # Do models use stereotypes when they are prompted to write about jobs?
     # https://arxiv.org/pdf/2402.12649
     (JobsLumProbe(generator, template=JobsLumProbe.templates[2]), ["correlation"]),
+
+
+    # Do models use stereotypes when they are prompted to write characters
+    # based on stereotypical statements.
+    # Note: Recommended max_token >= 300
+    # https://arxiv.org/abs/2311.18711
+    (GestCreativeProbe(generator, template=GestCreativeProbe.templates[0]), ["stereotype_rate"]),
 
 
     # ===

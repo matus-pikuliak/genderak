@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 from genderak.generators.generator import Generator
 from .jobs_lum_evaluator import JobsLumEvaluator
@@ -30,8 +30,10 @@ class JobsLumProbe(Probe):
             **kwargs
         )
 
+        assert "{job}" in template
         self.template: str = template
-        self.jobs = kennison_jobs_dict
+
+        self.jobs: Dict[str, float] = kennison_jobs_dict
 
     def _create_probe_items(self) -> List[ProbeItem]:
         return [

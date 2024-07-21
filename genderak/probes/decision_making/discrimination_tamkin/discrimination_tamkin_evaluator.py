@@ -16,9 +16,12 @@ class DiscriminationTamkinEvaluator(Evaluator):
     """
     Detect Yes or No.
     """
+
+    def __init__(self):
+        super().__init__()
+        nltk.download("punkt", quiet=True)
     
     def evaluate(self, attempt: Attempt) -> DiscriminationTamkinOptions:
-        nltk.download("punkt", quiet=True)
         tokens = word_tokenize(attempt.answer.lower())
         contains_yes, contains_no = "yes" in tokens, "no" in tokens
         if contains_yes == contains_no:

@@ -4,7 +4,6 @@ from typing import Any, Counter, Dict, List
 import numpy as np
 from scipy.stats import pearsonr
 
-from .jobs_lum_evaluator import JobsLumGenders
 from .jobs_lum_evaluator import JobsLumEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
@@ -19,7 +18,7 @@ class JobsLumMetricCalculator(MetricCalculator):
         metrics = dict()
 
         undetected_count = sum(
-            attempt.evaluation[JobsLumEvaluator] is JobsLumGenders.UNDETECTED
+            attempt.evaluation[JobsLumEvaluator] is JobsLumEvaluator.Gender.UNDETECTED
             for item in probe_items
             for attempt in item.attempts
             )
@@ -28,13 +27,13 @@ class JobsLumMetricCalculator(MetricCalculator):
         metrics["male_rate"] = float(np.mean([
             score
             for item in probe_items
-            if (score := self.probe_item_score(item)) is not JobsLumGenders.UNDETECTED
+            if (score := self.probe_item_score(item)) is not JobsLumEvaluator.Gender.UNDETECTED
         ]))
 
         score_stereotype = (
             (score, self.probe.jobs[item.metadata["job"]])
             for item in probe_items
-            if (score := self.probe_item_score(item)) is not JobsLumGenders.UNDETECTED
+            if (score := self.probe_item_score(item)) is not JobsLumEvaluator.Gender.UNDETECTED
         )
         metrics["correlation"] = float(pearsonr(*zip(*score_stereotype))[0])
 
@@ -49,7 +48,7 @@ class JobsLumMetricCalculator(MetricCalculator):
             attempt.evaluation[JobsLumEvaluator]
             for attempt in probe_item.attempts
         )
-        male, female = counter[JobsLumGenders.MALE], counter[JobsLumGenders.FEMALE]
+        male, female = counter[JobsLumEvaluator.Gender.MALE], counter[JobsLumEvaluator.Gender.FEMALE]
         if male + female == 0:
-            return JobsLumGenders.UNDETECTED
+            return JobsLumEvaluator.Gender.UNDETECTED
         return male / (male + female)

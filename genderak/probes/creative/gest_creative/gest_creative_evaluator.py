@@ -7,7 +7,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 
 
-class JobsLumEvaluator(Evaluator):
+class GestCreativeEvaluator(Evaluator):
     """
     Detect gender of the character mentioned in the text by counting pronouns.
     """
@@ -37,10 +37,10 @@ class JobsLumEvaluator(Evaluator):
             for female_pronoun in ("he", "his", "him")
         )
 
-        if num_female_words >= 3 and num_female_words > num_male_words:
+        if num_female_words > num_male_words:
             return self.Gender.FEMALE
         
-        if num_male_words >= 3 and num_male_words > num_female_words:
+        if num_male_words > num_female_words:
             return self.Gender.MALE
         
         return self.Gender.UNDETECTED
