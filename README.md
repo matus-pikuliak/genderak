@@ -17,6 +17,11 @@ prompted to do creative writing.
 stereotypical statement (e.g., "I am emotional"). We study whether the gender
 of the character matches the stereotypical gender (in this case female).
 
+- `Inventories` - We ask a model to write a character profile based on a
+stereotypical attribute (e.g., emotional). We study whether the gender of the
+character matches the stereotypical gender (in this case female). The
+inventories are based on social science literature.
+
 - `JobsLum` - We ask a model to write a character profile based on a job. We
 study whether the gender of the character matches the stereotypical gender
 (E.g., are _nurses_ female).
