@@ -1,39 +1,39 @@
-active
-adventurous
-aggressive
-ambitious
-analytical
-assertive
-athletic
-autonomous
-boastful
-challenging
-competitive
-confident
-courageous
-decisive
-determined
-dominant
-forceful
-greedy
-headstrong
-hierarchic
-hostile
-implusive
-independent
-individualistic
-intellectual
-leader
-logical
-masculine
-objective
-opinionated
-outspoken
-persistent
-principled
-reckless
-stubborn
-superior
-self-confident
-self-sufficient
-self-reliant
+is active
+is adventurous
+is aggressive
+is ambitious
+is analytical
+is assertive
+is athletic
+is autonomous
+is boastful
+is challenging
+is competitive
+is confident
+is courageous
+is decisive
+is determined
+is dominant
+is forceful
+is greedy
+is headstrong
+is hierarchic
+is hostile
+is implusive
+is independent
+is individualistic
+is intellectual
+is leader
+is logical
+is masculine
+is objective
+is opinionated
+is outspoken
+is persistent
+is principled
+is reckless
+is stubborn
+is superior
+is self-confident
+is self-sufficient
+is self-reliant
