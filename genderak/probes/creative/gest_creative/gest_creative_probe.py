@@ -3,7 +3,7 @@ from typing import List
 import pandas as pd
 
 from genderak.generators.generator import Generator
-from .gest_creative_evaluator import GestCreativeEvaluator
+from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from .gest_creative_metric_evaluator import GestCreativeMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
@@ -27,7 +27,7 @@ class GestCreativeProbe(Probe):
         
         super().__init__(
             generator=generator,
-            evaluators=[GestCreativeEvaluator()],
+            evaluators=[CharacterGenderEvaluator()],
             metric_calculators=[GestCreativeMetricCalculator()],
             **kwargs
         )

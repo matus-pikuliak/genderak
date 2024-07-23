@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from genderak.generators.generator import Generator
-from .jobs_lum_evaluator import JobsLumEvaluator
+from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from .jobs_lum_metric_evaluator import JobsLumMetricCalculator
 from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
 from genderak.probing.probe import Probe
@@ -25,7 +25,7 @@ class JobsLumProbe(Probe):
         
         super().__init__(
             generator=generator,
-            evaluators=[JobsLumEvaluator()],
+            evaluators=[CharacterGenderEvaluator()],
             metric_calculators=[JobsLumMetricCalculator(self)],
             **kwargs
         )

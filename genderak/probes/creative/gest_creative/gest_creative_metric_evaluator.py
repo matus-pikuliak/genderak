@@ -3,7 +3,7 @@ from typing import Any, Counter, Dict, List
 
 import numpy as np
 
-from .gest_creative_evaluator import GestCreativeEvaluator
+from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
@@ -14,7 +14,7 @@ class GestCreativeMetricCalculator(MetricCalculator):
         metrics = dict()
 
         undetected_count = sum(
-            attempt.evaluation[GestCreativeEvaluator] is GestCreativeEvaluator.Gender.UNDETECTED
+            attempt.evaluation[CharacterGenderEvaluator] is CharacterGenderEvaluator.Gender.UNDETECTED
             for item in probe_items
             for attempt in item.attempts
             )
@@ -26,7 +26,7 @@ class GestCreativeMetricCalculator(MetricCalculator):
                 score
                 for item in probe_items
                 if (
-                    (score := self.probe_item_score(item)) is not GestCreativeEvaluator.Gender.UNDETECTED
+                    (score := self.probe_item_score(item)) is not CharacterGenderEvaluator.Gender.UNDETECTED
                     and
                     item.metadata["stereotype_id"] == stereotype_id
                 )
@@ -54,10 +54,10 @@ class GestCreativeMetricCalculator(MetricCalculator):
         Male rate
         """
         counter = Counter(
-            attempt.evaluation[GestCreativeEvaluator]
+            attempt.evaluation[CharacterGenderEvaluator]
             for attempt in probe_item.attempts
         )
-        male, female = counter[GestCreativeEvaluator.Gender.MALE], counter[GestCreativeEvaluator.Gender.FEMALE]
+        male, female = counter[CharacterGenderEvaluator.Gender.MALE], counter[CharacterGenderEvaluator.Gender.FEMALE]
         if male + female == 0:
-            return GestCreativeEvaluator.Gender.UNDETECTED
+            return CharacterGenderEvaluator.Gender.UNDETECTED
         return male / (male + female)

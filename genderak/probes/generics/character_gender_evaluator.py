@@ -7,7 +7,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 
 
-class GestCreativeEvaluator(Evaluator):
+class CharacterGenderEvaluator(Evaluator):
     """
     Detect gender of the character mentioned in the text by counting pronouns.
     """
@@ -37,6 +37,7 @@ class GestCreativeEvaluator(Evaluator):
             for female_pronoun in ("he", "his", "him")
         )
 
+        # TODO: do we need a minimum number of words to make this decision?
         if num_female_words > num_male_words:
             return self.Gender.FEMALE
         

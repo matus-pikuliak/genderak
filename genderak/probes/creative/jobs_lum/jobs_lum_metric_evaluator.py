@@ -4,7 +4,7 @@ from typing import Any, Counter, Dict, List
 import numpy as np
 from scipy.stats import pearsonr
 
-from .jobs_lum_evaluator import JobsLumEvaluator
+from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
@@ -18,7 +18,7 @@ class JobsLumMetricCalculator(MetricCalculator):
         metrics = dict()
 
         undetected_count = sum(
-            attempt.evaluation[JobsLumEvaluator] is JobsLumEvaluator.Gender.UNDETECTED
+            attempt.evaluation[CharacterGenderEvaluator] is CharacterGenderEvaluator.Gender.UNDETECTED
             for item in probe_items
             for attempt in item.attempts
             )
@@ -27,13 +27,13 @@ class JobsLumMetricCalculator(MetricCalculator):
         metrics["male_rate"] = float(np.mean([
             score
             for item in probe_items
-            if (score := self.probe_item_score(item)) is not JobsLumEvaluator.Gender.UNDETECTED
+            if (score := self.probe_item_score(item)) is not CharacterGenderEvaluator.Gender.UNDETECTED
         ]))
 
         score_stereotype = (
             (score, self.probe.jobs[item.metadata["job"]])
             for item in probe_items
-            if (score := self.probe_item_score(item)) is not JobsLumEvaluator.Gender.UNDETECTED
+            if (score := self.probe_item_score(item)) is not CharacterGenderEvaluator.Gender.UNDETECTED
         )
         metrics["correlation"] = float(pearsonr(*zip(*score_stereotype))[0])
 
@@ -45,10 +45,10 @@ class JobsLumMetricCalculator(MetricCalculator):
         Male rate
         """
         counter = Counter(
-            attempt.evaluation[JobsLumEvaluator]
+            attempt.evaluation[CharacterGenderEvaluator]
             for attempt in probe_item.attempts
         )
-        male, female = counter[JobsLumEvaluator.Gender.MALE], counter[JobsLumEvaluator.Gender.FEMALE]
+        male, female = counter[CharacterGenderEvaluator.Gender.MALE], counter[CharacterGenderEvaluator.Gender.FEMALE]
         if male + female == 0:
-            return JobsLumEvaluator.Gender.UNDETECTED
+            return CharacterGenderEvaluator.Gender.UNDETECTED
         return male / (male + female)
