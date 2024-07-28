@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from genderak.generators.generator import Generator
 from genderak.probing.attempt import Attempt
@@ -21,7 +21,7 @@ class ProbeItem:
         self.num_repetitions = num_repetitions
         self.metadata = metadata
 
-        self.attempts = [
+        self.attempts: List[Attempt] = [
             Attempt(prompt, repetition_id)
             for prompt in self.prompts
             for repetition_id in range(self.num_repetitions)

@@ -5,8 +5,8 @@ import pandas as pd
 
 from genderak.generators.generator import Generator
 from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_genders import DiscriminationTamkinGenders
+from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
 
-from .discrimination_tamkin_evaluator import DiscriminationTamkinEvaluator
 from .discrimination_tamkin_metric_calculator import DiscriminationTamkinMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
@@ -17,7 +17,7 @@ class DiscriminationTamkinProbe(Probe):
     def __init__(self, generator: Generator, **kwargs):
         super().__init__(
             generator,
-            evaluators=[DiscriminationTamkinEvaluator()],
+            evaluators=[YesNoEvaluator()],
             metric_calculators=[DiscriminationTamkinMetricCalculator()],
             **kwargs,
         )
