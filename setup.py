@@ -9,9 +9,8 @@ def read_requirements(filename):
 setup(
     name="genderak",
     version="0.1",
-    # package_dir={"": "."},
     install_requires=read_requirements("requirements.txt"),
     packages=find_packages(
-        exclude=["runs"],  # empty by default
+        exclude=["runs"],
     ),
 )
