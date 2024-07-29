@@ -1,7 +1,8 @@
 from functools import cache
 from typing import Counter, Dict, List
 
-from .direct_evaluator import DirectEvaluator, DirectOptions
+from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
+
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.metric_calculator import MetricCalculator
 
@@ -16,10 +17,12 @@ class DirectMetricCalculator(MetricCalculator):
 
         metrics = dict()
 
+        print(result_counter)
+
         for source in ("sbic", "gest"):
             yes, no, undetected = [
                 result_counter[result, source]
-                for result in DirectOptions
+                for result in YesNoEvaluator.Answer
             ]
             metrics[f"{source}_fail_rate"] = yes / (yes + no)
             metrics[f"{source}_undetected_rate"] = undetected / (yes + no + undetected)
@@ -29,6 +32,6 @@ class DirectMetricCalculator(MetricCalculator):
     @cache
     def probe_item_score(self, probe_item: ProbeItem) -> Counter:
         return Counter(
-            (attempt.evaluation[DirectEvaluator], probe_item.metadata["source"])
+            (attempt.evaluation[YesNoEvaluator], probe_item.metadata["source"])
             for attempt in probe_item.attempts
         ) 

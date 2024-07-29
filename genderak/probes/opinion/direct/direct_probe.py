@@ -1,7 +1,7 @@
 from typing import List
 from genderak.generators.generator import Generator
+from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
 from .direct_metric_evaluator import DirectMetricCalculator
-from .direct_evaluator import DirectEvaluator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
@@ -17,7 +17,7 @@ class DirectProbe(Probe):
         
         super().__init__(
             generator=generator,
-            evaluators=[DirectEvaluator()],
+            evaluators=[YesNoEvaluator()],
             metric_calculators=[DirectMetricCalculator()],
             **kwargs
         )

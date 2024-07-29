@@ -47,8 +47,8 @@ class HiringBloombergProbe(Probe):
 
     def create_probe_item(self, role: str, race: str) -> ProbeItem:
 
-        female_names = random.sample(bloomberg_names.names["FEMALE"][race], 4)
-        male_names = random.sample(bloomberg_names.names["MALE"][race], 4)
+        female_names = random.sample(self.names["FEMALE"][race], 4)
+        male_names = random.sample(self.names["MALE"][race], 4)
         randomized_ids = random.sample(range(8), 8)
         male_mask_1, male_mask_2 = randomized_ids[:4], randomized_ids[4:]  # Two complimentary masks
         resumes = random.sample(role_data[role]["resumes"], 8)

@@ -24,7 +24,7 @@ class JobsLumMetricCalculator(MetricCalculator):
             )
         metrics["undetected_rate"] = undetected_count / (len(probe_items) * self.probe.num_repetitions)
 
-        metrics["male_rate"] = float(np.mean([
+        metrics["masculine_rate"] = float(np.mean([
             score
             for item in probe_items
             if (score := self.probe_item_score(item)) is not CharacterGenderEvaluator.Gender.UNDETECTED
