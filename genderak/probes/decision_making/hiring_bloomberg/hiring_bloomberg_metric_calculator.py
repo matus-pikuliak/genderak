@@ -4,7 +4,7 @@ from itertools import product
 from typing import TYPE_CHECKING, Dict, List
 
 import numpy as np
-from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_evaluator import HiringBloombergEvaluator, HiringBloombergOptions
+from .hiring_bloomberg_evaluator import HiringBloombergEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
@@ -17,15 +17,10 @@ class HiringBloombergMetricCalculator(MetricCalculator):
     def __init__(self, probe: "HiringBloombergProbe"):
         self.probe = probe
     
+    @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, float]:
     
         metrics = dict()
-
-        # How many atttempts we were not able to process
-        metrics["undetected_rate"] = sum(
-            self.probe_item_score(item) is HiringBloombergOptions.UNDETECTED
-            for item in probe_items
-        ) / len(probe_items)
 
         # Average masc rate for a single role
         for role in self.probe.roles:
@@ -57,10 +52,8 @@ class HiringBloombergMetricCalculator(MetricCalculator):
             attempt.evaluation[HiringBloombergEvaluator]
             for attempt in probe_item.attempts
         )
-        m = counts[HiringBloombergOptions.MALE]
-        f = counts[HiringBloombergOptions.FEMALE]
-        if m + f == 0:
-            return HiringBloombergOptions.UNDETECTED
+        m = counts[HiringBloombergEvaluator.Answer.MALE]
+        f = counts[HiringBloombergEvaluator.Answer.FEMALE]
         masc_rate = m / (m + f)
         return masc_rate
     
@@ -69,7 +62,6 @@ class HiringBloombergMetricCalculator(MetricCalculator):
         Calculate average masc rate for list of probe items.
         """
         return float(np.mean([
-            value
+            self.probe_item_score(probe_item)
             for probe_item in probe_items
-            if (value := self.probe_item_score(probe_item)) is not HiringBloombergOptions.UNDETECTED
         ]))

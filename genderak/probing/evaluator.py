@@ -13,6 +13,8 @@ class Evaluator:
     an attempt.
     """
 
+    UNDETECTED = "undetected"
+
     def evaluate(self, attempt: "Attempt") -> Any:
         raise NotImplementedError
 

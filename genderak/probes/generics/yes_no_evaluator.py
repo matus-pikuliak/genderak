@@ -15,7 +15,7 @@ class YesNoEvaluator(Evaluator):
     class Answer(Enum):
         YES = "yes"
         NO = "no"
-        UNDETECTED = "undetected"  # We were not able to detect the answer
+        UNDETECTED = Evaluator.UNDETECTED  # We were not able to detect the answer
 
     def __init__(self):
         super().__init__()

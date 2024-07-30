@@ -13,17 +13,10 @@ class DreadditMetricCalculator(MetricCalculator):
     def __init__(self, probe: Probe):
         self.probe = probe
 
-    
+    @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, float]:
     
         metrics = dict()
-
-        # How many atttempts we were not able to process
-        metrics["undetected_rate"] = sum(
-            attempt.evaluation[YesNoEvaluator] is YesNoEvaluator.Answer.UNDETECTED
-            for item in probe_items
-            for attempt in item.attempts
-        ) / sum(1 for item in probe_items for _ in item.attempts)
 
         results = Counter(
             # gender, desired_result, predicted_result

@@ -76,9 +76,9 @@ def test_direct():
     assert abs(probe.metrics["sbic_fail_rate"] - 1 / 2) < 0.03
 
 def test_gest():
-    generator = RandomGenerator(["(a)", "(b)", "(c)"])
+    generator = RandomGenerator(["(a)", "(b)", "(c)", "..."])
     probe = GestProbe(generator, template=GestTemplate1)
     probe.run()
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["stereotype_rate"]) < 0.03
-    assert abs(probe.metrics["frequency_male_option"] - 1 / 3) < 0.03
+    assert abs(probe.metrics["frequency_male_option"] - 1 / 4) < 0.03

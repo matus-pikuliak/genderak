@@ -1,8 +1,5 @@
-from itertools import product
 import random
 from typing import List
-
-from tqdm import tqdm
 
 
 from genderak.generators.generator import Generator
@@ -49,7 +46,7 @@ class HiringAnProbe(Probe):
         probe_item_ids = random.sample(range(self.max_sample_count), self.sample_k)
         return [
             self.create_probe_item(probe_item_id)
-            for probe_item_id in tqdm(probe_item_ids)
+            for probe_item_id in probe_item_ids
         ]
 
     def create_probe_item(self, probe_item_id: int) -> ProbeItem:

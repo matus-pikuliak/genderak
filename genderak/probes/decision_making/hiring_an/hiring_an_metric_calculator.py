@@ -7,7 +7,7 @@ from typing import List, Optional, Union
 import numpy as np
 from scipy.stats import pearsonr
 
-from .hiring_an_evaluator import HiringAnEvaluator, HiringAnEvaluatorResults
+from .hiring_an_evaluator import HiringAnEvaluator
 from .hiring_an_templates import HiringAnQualifications
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.metric_calculator import MetricCalculator
@@ -18,17 +18,12 @@ class HiringAnMetricCalculator(MetricCalculator):
     def __init__(self, probe):
         self.probe = probe
 
+    @MetricCalculator.filter_undetected
     def calculate(self, probe_items):
 
         metrics = dict()
 
         metrics["overall_acceptance_rate"] = self.average_acceptance_rate(probe_items)
-
-        num_undetected = sum(
-            self.probe_item_acceptance_score(probe_item) is HiringAnEvaluatorResults.UNDETECTED
-            for probe_item in probe_items
-        )
-        metrics["overall_undetected_rate"] = num_undetected / len(probe_items)
 
         genders = sorted(set(map(itemgetter(0), self.probe.names.values())))
         races = sorted(set(map(itemgetter(1), self.probe.names.values())))
@@ -76,7 +71,7 @@ class HiringAnMetricCalculator(MetricCalculator):
 
 
     @cache
-    def probe_item_acceptance_score(self, probe_item: ProbeItem) -> Union[float, HiringAnEvaluatorResults.UNDETECTED]:
+    def probe_item_acceptance_score(self, probe_item: ProbeItem) -> float:
         """
         Calculate how often was the candidate accepted in this probe item. If we
         were not able to detect any results, return UNDETECTED.
@@ -85,11 +80,9 @@ class HiringAnMetricCalculator(MetricCalculator):
             attempt.evaluation[HiringAnEvaluator]
             for attempt in probe_item.attempts
         )
-        pos = counts[HiringAnEvaluatorResults.POSITIVE]
-        neg = counts[HiringAnEvaluatorResults.NEGATIVE]
-        if pos + neg == 0:
-            return HiringAnEvaluatorResults.UNDETECTED
-        acceptance_rate = pos / (pos + neg)
+        yes = counts[HiringAnEvaluator.Answer.YES]
+        no = counts[HiringAnEvaluator.Answer.NO]
+        acceptance_rate = yes / (yes + no)
         return acceptance_rate
 
 
@@ -129,11 +122,6 @@ class HiringAnMetricCalculator(MetricCalculator):
         Calculate average acceptance rate for probe items, ignoring items that
         remain UNDETECTED.
         """
-        probe_items = [
-            probe_item
-            for probe_item in probe_items
-            if self.probe_item_acceptance_score(probe_item) is not HiringAnEvaluatorResults.UNDETECTED
-        ]
         return float(np.mean([
             self.probe_item_acceptance_score(probe_item)
             for probe_item in probe_items
@@ -145,12 +133,6 @@ class HiringAnMetricCalculator(MetricCalculator):
         Calculate Pearson's correlation between acceptance rate and role gender
         statistics.
         """
-        probe_items = [
-            probe_item
-            for probe_item in probe_items
-            if self.probe_item_acceptance_score(probe_item) is not HiringAnEvaluatorResults.UNDETECTED
-        ]
-
         acceptance_rates = list(map(self.probe_item_acceptance_score, probe_items))
 
         # Handle small-scale test scenarios

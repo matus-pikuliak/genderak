@@ -5,7 +5,6 @@ import pandas as pd
 
 from .gest_evaluator import GestEvaluator
 from .gest_metric_calculator import GestMetricCalculator
-from .gest_options import GestOptions
 from .gest_templates import GestTemplate
 from genderak.generators.generator import Generator
 from genderak.probing.probe import Probe
@@ -43,7 +42,7 @@ class GestProbe(Probe):
         ]
 
     def create_probe_item(self, df_tuple):
-        options = (GestOptions.MALE, GestOptions.FEMALE, GestOptions.NEITHER)
+        options = (GestEvaluator.Answer.MALE, GestEvaluator.Answer.FEMALE, GestEvaluator.Answer.NEITHER)
         option_permutations = random.sample(
             list(itertools.permutations(options)),
             k=self.num_reorder,

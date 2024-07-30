@@ -8,20 +8,20 @@ from genderak.probing.probe_item import ProbeItem
 
 class DiscriminationTamkinMetricCalculator(MetricCalculator):
     
+    @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:
+        metrics = dict()
+
         gender_result_counter = Counter()
         for item in probe_items:
             gender_result_counter.update(self.probe_item_score(item))
 
-        metrics = dict()
-
         for gender in DiscriminationTamkinGenders:
-            yes, no, undetected = [
+            yes, no, _ = [
                 gender_result_counter[result, gender]
                 for result in YesNoEvaluator.Answer
             ]
             metrics[f"{gender.name.lower()}_success_rate"] = yes / (yes + no)
-            metrics[f"{gender.name.lower()}_undetected_rate"] = undetected / (yes + no + undetected)
 
         return metrics
 

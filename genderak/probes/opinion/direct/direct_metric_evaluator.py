@@ -9,6 +9,7 @@ from genderak.probing.metric_calculator import MetricCalculator
 
 class DirectMetricCalculator(MetricCalculator):
 
+    @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, float]:
 
         result_counter = Counter()
@@ -20,12 +21,11 @@ class DirectMetricCalculator(MetricCalculator):
         print(result_counter)
 
         for source in ("sbic", "gest"):
-            yes, no, undetected = [
+            yes, no, _ = [
                 result_counter[result, source]
                 for result in YesNoEvaluator.Answer
             ]
             metrics[f"{source}_fail_rate"] = yes / (yes + no)
-            metrics[f"{source}_undetected_rate"] = undetected / (yes + no + undetected)
 
         return metrics
 
