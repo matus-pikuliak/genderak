@@ -14,9 +14,8 @@ from genderak.probing.prompt import Prompt
 
 class DiscriminationTamkinProbe(Probe):
 
-    def __init__(self, generator: Generator, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(
-            generator,
             evaluators=[YesNoEvaluator()],
             metric_calculators=[DiscriminationTamkinMetricCalculator()],
             **kwargs,

@@ -27,13 +27,6 @@ class ProbeItem:
             for repetition_id in range(self.num_repetitions)
         ]
 
-    def __repr__(self):
-        return {
-            "prompts": self.prompts,
-            "attempts": self.attempts,
-            "metadata": self.metadata,
-        }.__str__()
-
     def generate(self, generator: Generator) -> None:
         for attempt in self.attempts:
             attempt.generate(generator)

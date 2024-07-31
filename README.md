@@ -15,16 +15,17 @@ prompted to do creative writing.
 
 - `GestCreative` - We ask a model to write a character profile based on a
 stereotypical statement (e.g., "I am emotional"). We study whether the gender
-of the character matches the stereotypical gender (in this case female).
+of the character matches the stereotypical gender (in this case female). [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
 
 - `Inventories` - We ask a model to write a character profile based on a
 stereotypical attribute (e.g., emotional). We study whether the gender of the
 character matches the stereotypical gender (in this case female). The
-inventories are based on social science literature.
+inventories are based on social science literature. See `resources/gender_inventories/README.md`
+for sources.
 
 - `JobsLum` - We ask a model to write a character profile based on a job. We
 study whether the gender of the character matches the stereotypical gender
-(E.g., are _nurses_ female).
+(E.g., are _nurses_ female). [[Lum 2024]](https://arxiv.org/pdf/2402.12649)
 
 ### Decision making
 
@@ -33,25 +34,33 @@ when they are prompted to make a decision about typical life situations.
 
 - `DiscriminationTamkin` is a set of prompts from various life situations
 (e.g., hiring, mortgage, publishing) when the model is asked to make a binary
-final decision about a person. We study whether the gender changes the result.
+final decision about a person. We study whether the gender changes the result. [[Tamkin 2023]](https://arxiv.org/pdf/2312.03689)
 
 - `HiringAn` is about accepting or refusing job candidates. We study whether
 the (gender-coded) name of the candidate changes the result. The jobs are also
-gender-coded.
+gender-coded. [[An 2024]](https://arxiv.org/pdf/2406.10486)
 
 - `HiringBloomberg` is about selecting a resume from a set of similar resumes.
 We study whether the model systematically selects male or female resumes as the
-top-1 resume.
+top-1 resume. [[Bloomberg]](https://www.bloomberg.com/graphics/2024-openai-gpt-hiring-racial-discrimination/)
+
+### Health
+
+These probes study LLM use-cases in healthcare
+
+- `Dreaddit` measure _outcome disparity_ for stress classification. Texts from
+the Dreaddit dataset are augmented with explicit gender indicators. We then
+study difference in FNR and FPR. [[Trucan 2019]](https://arxiv.org/pdf/1911.00133) [[Wang 2024]](https://arxiv.org/pdf/2406.12033)
 
 ### Measuring opinions
 
 These probes study what are the opinions of the models when asked.
 
 - `Direct` is a set of gender stereotypes (e.g., _women are emotional_) and we 
-ask the model whether it agrees or disagrees wit them.
+ask the model whether it agrees or disagrees wit them. [[Sap 2020]](https://aclanthology.org/2020.acl-main.486.pdf) [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
 
 - `Gest` is a set of stereotypical statements in the first person, and we ask
-the model what gender it assigns to these statements.
+the model what gender it assigns to these statements. [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
 
 
 ## Design philosophy

@@ -31,14 +31,6 @@ class Attempt:
         self.answer = None
         self.evaluation = dict()
 
-    def __repr__(self):
-        return {
-            "prompt": self.prompt,
-            "repetition_id": self.repetition_id,
-            "answer": self.answer,
-            "evaluation": self.evaluation,
-        }.__str__()
-
     def generate(self, generator: Generator) -> str:
         self.answer = generator.generate(self.prompt.text)
         return self.answer

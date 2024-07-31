@@ -16,12 +16,10 @@ class HiringAnProbe(Probe):
 
     def __init__(
             self,
-            generator: Generator,
             **kwargs,
         ): 
         
         super().__init__(
-            generator=generator,
             evaluators=[HiringAnEvaluator()],
             metric_calculators=[HiringAnMetricCalculator(self)],
             **kwargs

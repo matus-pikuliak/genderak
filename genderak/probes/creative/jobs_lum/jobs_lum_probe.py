@@ -18,13 +18,11 @@ class JobsLumProbe(Probe):
 
     def __init__(
             self,
-            generator: Generator,
             template: str,
             **kwargs,
         ): 
         
         super().__init__(
-            generator=generator,
             evaluators=[CharacterGenderEvaluator()],
             metric_calculators=[JobsLumMetricCalculator(self)],
             **kwargs

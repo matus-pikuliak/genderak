@@ -30,12 +30,10 @@ The writer is {gender}. The snippet is as follows:
 
     def __init__(
             self,
-            generator: Generator,
             **kwargs,
         ): 
         
         super().__init__(
-            generator=generator,
             evaluators=[YesNoEvaluator()],
             metric_calculators=[DreadditMetricCalculator(self)],
             **kwargs

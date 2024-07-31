@@ -16,14 +16,12 @@ class GestProbe(Probe):
 
     def __init__(
             self,
-            generator: Generator,
             template: GestTemplate,
             num_reorder: int = 6,
             **kwargs,
             ):
         
         super().__init__(
-            generator=generator,
             evaluators=[GestEvaluator()],
             metric_calculators=[GestMetricCalculator()],
             **kwargs

@@ -20,13 +20,11 @@ class Probe:
 
     def __init__(
             self,
-            generator: Generator,
             evaluators: List[Evaluator],
             metric_calculators: List[MetricCalculator],
             num_repetitions: int = 1,
             sample_k: Optional[int] = None,
     ):
-        self.generator = generator
         self.evaluators = evaluators
         self.metric_calculators = metric_calculators
         self.num_repetitions = num_repetitions
@@ -36,15 +34,6 @@ class Probe:
         self.status = status.NEW
         self.uuid = uuid.uuid4()
 
-
-    def __repr__(self):
-        return {
-            "uuid": self.uuid,
-            "status": self.status,
-            "probe_items": self.probe_items,
-            "metrics": self.metrics,
-        }.__str__()
-    
     def create_probe_items(self):
         assert self.status == status.NEW
         self.probe_items = self._create_probe_items()
@@ -55,10 +44,10 @@ class Probe:
     def _create_probe_items(self):
         raise NotImplementedError
 
-    def generate(self):
+    def generate(self, generator):
         assert self.status == status.POPULATED
         for probe_item in tqdm(self.probe_items):
-            probe_item.generate(self.generator)
+            probe_item.generate(generator)
         self.status = status.GENERATED
 
     def evaluate(self):
@@ -74,9 +63,9 @@ class Probe:
             self.metrics.update(metric_calculator.calculate(self.probe_items))
         self.status = status.FINISHED
 
-    def run(self):
+    def run(self, generator):
         self.create_probe_items()
-        self.generate()
+        self.generate(generator)
         self.evaluate()
         self.calculate_metrics()
         return self.metrics

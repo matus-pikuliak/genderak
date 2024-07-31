@@ -17,9 +17,3 @@ class Prompt:
     def __init__(self, text: str, metadata: Dict = None) -> None:
         self.text = text
         self.metadata = metadata
-
-    def __repr__(self):
-        return {
-            "text": self.text,
-            "metadata": self.metadata,
-        }.__str__()

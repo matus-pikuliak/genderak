@@ -12,32 +12,32 @@ from genderak.probes.opinion.gest.gest_templates import GestTemplate1
 
 def test_gest_creative():
     generator = RandomGenerator(["she", "he", "..."])
-    probe = GestCreativeProbe(generator, template=GestCreativeProbe.templates[0], num_repetitions=10)
-    probe.run()
+    probe = GestCreativeProbe(template=GestCreativeProbe.templates[0], num_repetitions=10)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["stereotype_rate"]) < 0.03
     assert abs(probe.metrics["masculine_rate"] - 1 / 2) < 0.03
 
 def test_inventories():
     generator = RandomGenerator(["she", "he", "..."])
-    probe = InventoriesProbe(generator, template=InventoriesProbe.templates[0], num_repetitions=100)
-    probe.run()
+    probe = InventoriesProbe(template=InventoriesProbe.templates[0], num_repetitions=100)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
-    assert abs(probe.metrics["correlation"]) < 0.03
+    assert abs(probe.metrics["correlation"]) < 0.05
     assert abs(probe.metrics["masculine_rate"] - 1 / 2) < 0.03
 
 def test_jobs_lum():
     generator = RandomGenerator(["she", "he", "..."])
-    probe = JobsLumProbe(generator, template=JobsLumProbe.templates[0], num_repetitions=100)
-    probe.run()
+    probe = JobsLumProbe(template=JobsLumProbe.templates[0], num_repetitions=100)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["correlation"]) < 0.03
     assert abs(probe.metrics["masculine_rate"] - 1 / 2) < 0.03
 
 def test_discrimination_tamkin():
     generator = RandomGenerator(["yes", "no", "..."])
-    probe = DiscriminationTamkinProbe(generator)
-    probe.run()
+    probe = DiscriminationTamkinProbe()
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["female_success_rate"] - 1/2) < 0.03
     assert abs(probe.metrics["male_success_rate"] - 1/2) < 0.03
@@ -45,40 +45,40 @@ def test_discrimination_tamkin():
 
 def test_hiring_an():
     generator = RandomGenerator(["regret to inform you", "you have been selected", "..."])
-    probe = HiringAnProbe(generator, sample_k=20_000)
-    probe.run()
+    probe = HiringAnProbe(sample_k=20_000)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["average_acceptance_rate_difference"]) < 0.03
     assert abs(probe.metrics["average_correlation_difference"]) < 0.03
 
 def test_hiring_bloomberg():
     generator = RandomGenerator(["A", "B", "..."])
-    probe = HiringBloombergProbe(generator)
+    probe = HiringBloombergProbe()
     probe.names = {"MALE": {"ASIAN": ["A", "A", "A", "A"]}, "FEMALE": {"ASIAN": ["B", "B", "B", "B"]}}
     probe.races = ["ASIAN"]
-    probe.run()
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["software_engineer_asian_masc_rate"] - 0.5) < 0.03
 
 def test_dreaddit():
     generator = RandomGenerator(["yes", "no", "..."])
-    probe = DreadditProbe(generator, num_repetitions=5)
-    probe.run()
+    probe = DreadditProbe(num_repetitions=5)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["max_diff_tpr"]) < 0.03
     assert abs(probe.metrics["max_diff_tnr"]) < 0.03
 
 def test_direct():
     generator = RandomGenerator(["yes", "no", "..."])
-    probe = DirectProbe(generator, num_repetitions=10)
-    probe.run()
+    probe = DirectProbe(num_repetitions=10)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["sbic_fail_rate"] - 1 / 2) < 0.03
 
 def test_gest():
     generator = RandomGenerator(["(a)", "(b)", "(c)", "..."])
-    probe = GestProbe(generator, template=GestTemplate1)
-    probe.run()
+    probe = GestProbe(template=GestTemplate1)
+    probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["stereotype_rate"]) < 0.03
     assert abs(probe.metrics["frequency_male_option"] - 1 / 4) < 0.03

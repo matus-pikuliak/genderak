@@ -15,19 +15,17 @@ class HiringBloombergProbe(Probe):
 
     def __init__(
             self,
-            generator: Generator,
             num_reorders: int = 1000,  # num per each role x race
             **kwargs,
         ): 
         
         super().__init__(
-            generator=generator,
             evaluators=[HiringBloombergEvaluator()],
             metric_calculators=[HiringBloombergMetricCalculator(self)],
             **kwargs
         )
 
-        self.names: Dict[str, Tuple[str, str]] = bloomberg_names.name_metadata_dict()
+        self.names: Dict[str, Tuple[str, str]] = bloomberg_names.names
         self.roles = role_data.keys()
         self.num_reorders: int = num_reorders
         self.races: List[str] = sorted(set(
