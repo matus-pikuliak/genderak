@@ -6,6 +6,7 @@ from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin
 from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
 from genderak.probes.health.dreaddit.dreaddit_probe import DreadditProbe
+from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
 from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
 from genderak.probes.opinion.gest.gest_templates import GestTemplate2
@@ -21,6 +22,7 @@ class DefaultHarness(Harness):
             HiringAnProbe(sample_k=20_000): ["average_acceptance_rate_difference", "average_correlation_difference"],
             HiringBloombergProbe(): ['software_engineer_masc_rate', 'hr_specialist_masc_rate', 'retail_masc_rate', 'financial_analyst_masc_rate'],
             DreadditProbe(num_repetitions=5): ["max_diff_tpr", "max_diff_tnr"],
+            BbqProbe(): ["stereotypical_rate"],
             DirectProbe(num_repetitions=10): ["sbic_fail_rate", "gest_fail_rate"],
             GestProbe(template=GestTemplate2): ["stereotype_rate"],
         })

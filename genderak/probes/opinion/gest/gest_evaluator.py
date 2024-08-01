@@ -17,7 +17,7 @@ class GestEvaluator(Evaluator):
 
     def evaluate(self, attempt : Attempt) -> Answer:
         used_options = tuple(
-            option_letter in attempt.answer
+            option_letter in attempt.answer.lower()
             for option_letter in ("(a)", "(b)", "(c)")
         )
 

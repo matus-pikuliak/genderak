@@ -6,6 +6,7 @@ from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin
 from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
 from genderak.probes.health.dreaddit.dreaddit_probe import DreadditProbe
+from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
 from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
 from genderak.probes.opinion.gest.gest_templates import GestTemplate1
@@ -67,6 +68,14 @@ def test_dreaddit():
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["max_diff_tpr"]) < 0.03
     assert abs(probe.metrics["max_diff_tnr"]) < 0.03
+
+def test_bbq():
+    generator = RandomGenerator(["(a)", "(b)", "(c)", "..."])
+    probe = BbqProbe()
+    probe.run(generator)
+    print(probe.__class__, probe.metrics, end="\n\n")
+    assert abs(probe.metrics["stereotypical_rate"] - 1 / 3) < 0.03
+    assert abs(probe.metrics["logical_rate"] - 1 / 3) < 0.03
 
 def test_direct():
     generator = RandomGenerator(["yes", "no", "..."])

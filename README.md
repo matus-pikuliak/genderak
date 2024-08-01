@@ -56,6 +56,10 @@ study difference in FNR and FPR. [[Trucan 2019]](https://arxiv.org/pdf/1911.0013
 
 These probes study what are the opinions of the models when asked.
 
+- `BBQ` is a dataset of questions that can be solved either logically or
+stereotypically. The probe measure how much stereotypical reasoning is used.
+[[Parrish 2021]](https://arxiv.org/pdf/2110.08193)
+
 - `Direct` is a set of gender stereotypes (e.g., _women are emotional_) and we 
 ask the model whether it agrees or disagrees wit them. [[Sap 2020]](https://aclanthology.org/2020.acl-main.486.pdf) [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
 

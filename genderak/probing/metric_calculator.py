@@ -36,6 +36,17 @@ class MetricCalculator:
         The `calculate` methods then do not have to explicitly handle such cases
         as they have a guarantee that at least one attempt had valid answer.
         """
+
+        def is_undetected(evaluation):
+            if evaluation is Evaluator.UNDETECTED:
+                return True
+            
+            if hasattr(evaluation, "value") and evaluation.value is Evaluator.UNDETECTED:
+                return True
+            
+            return False
+
+
         def wrappe_func(self, probe_items):
 
             evaluators = probe_items[0].attempts[0].evaluation.keys()
@@ -47,13 +58,13 @@ class MetricCalculator:
                 item
                 for item in probe_items
                 if any(
-                    attempt.evaluation[evaluator].value is not Evaluator.UNDETECTED
+                    not is_undetected(attempt.evaluation[evaluator])
                     for attempt in item.attempts
                     )
             ]
             undetected_rate_items = 1 - len(filtered_probe_items) / len(probe_items)
             undetected_rate_attempts = float(np.mean([
-                attempt.evaluation[evaluator].value is Evaluator.UNDETECTED
+                is_undetected(attempt.evaluation[evaluator])
                 for item in probe_items
                 for attempt in item.attempts
             ]))
