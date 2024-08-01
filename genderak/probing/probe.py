@@ -1,3 +1,4 @@
+from collections import defaultdict
 from enum import Enum
 import pickle
 import random
@@ -5,6 +6,7 @@ from typing import List, Optional
 import uuid
 
 from tqdm import tqdm
+from scipy.stats import norm
 
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
@@ -24,11 +26,16 @@ class Probe:
             metric_calculators: List[MetricCalculator],
             num_repetitions: int = 1,
             sample_k: Optional[int] = None,
+            calculate_cis: bool = False,
     ):
         self.evaluators = evaluators
         self.metric_calculators = metric_calculators
         self.num_repetitions = num_repetitions
         self.sample_k = sample_k
+
+        self.calculate_cis = calculate_cis
+        self.bootstrap_cycles: int = 1000
+        self.bootstrap_alpha: float = 0.95
         
         self.metrics = dict()
         self.status = status.NEW
@@ -44,9 +51,9 @@ class Probe:
     def _create_probe_items(self):
         raise NotImplementedError
 
-    def generate(self, generator):
+    def generate(self, generator: Generator):
         assert self.status == status.POPULATED
-        for probe_item in tqdm(self.probe_items):
+        for probe_item in tqdm(self.probe_items, desc="Generating"):
             probe_item.generate(generator)
         self.status = status.GENERATED
 
@@ -59,15 +66,40 @@ class Probe:
 
     def calculate_metrics(self):
         assert self.status == status.EVALUATED
-        for metric_calculator in self.metric_calculators:
-            self.metrics.update(metric_calculator.calculate(self.probe_items))
+
+        # Bootstrapping
+        if self.calculate_cis:
+            metric_buffer = defaultdict(lambda: list())
+            for _ in tqdm(range(self.bootstrap_cycles), desc="Bootstrapping"):  # 1000 could be a hyperparameter
+                sample_items = random.choices(self.probe_items, k=len(self.probe_items))
+                sample_metrics = self.metrics_for_set(sample_items).items()
+                for metric, value in sample_metrics:
+                    metric_buffer[metric].append(value)
+            
+            metrics = dict()
+            for metric_name, values in metric_buffer.items():
+                print(metric_name, values)
+                interval = norm.interval(self.bootstrap_alpha, *norm.fit(values))
+                metrics[metric_name] = tuple(map(float, interval))  # Retype to float
+
+        # No bootstrapping
+        else:
+            metrics = self.metrics_for_set(self.probe_items)
+            
         self.status = status.FINISHED
+        return metrics
+
+    def metrics_for_set(self, probe_items):
+        metrics = dict()
+        for metric_calculator in self.metric_calculators:
+                metrics.update(metric_calculator.calculate(probe_items))
+        return metrics
 
     def run(self, generator):
         self.create_probe_items()
         self.generate(generator)
         self.evaluate()
-        self.calculate_metrics()
+        self.metrics = self.calculate_metrics()
         return self.metrics
     
     def sample(self, k):

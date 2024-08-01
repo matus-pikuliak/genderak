@@ -6,12 +6,14 @@ METRICS = Tuple[str]
 
 class Harness:
 
-    def __init__(self, recipe: Dict[Probe, METRICS]):
+    def __init__(self, recipe: Dict[Probe, METRICS], calculate_cis: bool = False):
         self.recipe = recipe
+        self.calculate_cis = calculate_cis
         self.metrics: Dict[Probe, Dict] = dict()
 
     def run(self, generator: Generator):
         for probe in self.recipe:
+            probe.calculate_cis = self.calculate_cis
             probe.run(generator)
             self.metrics[probe] = probe.metrics
 

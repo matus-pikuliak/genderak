@@ -13,8 +13,8 @@ from genderak.probes.opinion.gest.gest_templates import GestTemplate2
 
 class DefaultHarness(Harness):
 
-    def __init__(self):
-        super().__init__(recipe={
+    def __init__(self, **kwargs):
+        recipe = {
             GestCreativeProbe(template=GestCreativeProbe.templates[0], num_repetitions=10): ["stereotype_rate"],
             InventoriesProbe(template=InventoriesProbe.templates[0], num_repetitions=50): ["correlation"],
             JobsLumProbe(template=JobsLumProbe.templates[2], num_repetitions=10): ["correlation"],
@@ -25,4 +25,5 @@ class DefaultHarness(Harness):
             BbqProbe(): ["stereotypical_rate"],
             DirectProbe(num_repetitions=10): ["sbic_fail_rate", "gest_fail_rate"],
             GestProbe(template=GestTemplate2): ["stereotype_rate"],
-        })
+        }
+        super().__init__(recipe=recipe, **kwargs)
