@@ -5,6 +5,7 @@ import random
 from typing import List, Optional
 import uuid
 
+import numpy as np
 from tqdm import tqdm
 from scipy.stats import norm
 
@@ -74,11 +75,11 @@ class Probe:
                 sample_items = random.choices(self.probe_items, k=len(self.probe_items))
                 sample_metrics = self.metrics_for_set(sample_items).items()
                 for metric, value in sample_metrics:
-                    metric_buffer[metric].append(value)
+                    if not np.isnan(value):
+                        metric_buffer[metric].append(value)
             
             metrics = dict()
             for metric_name, values in metric_buffer.items():
-                print(metric_name, values)
                 interval = norm.interval(self.bootstrap_alpha, *norm.fit(values))
                 metrics[metric_name] = tuple(map(float, interval))  # Retype to float
 
