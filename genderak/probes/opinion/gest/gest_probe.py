@@ -5,14 +5,17 @@ import pandas as pd
 
 from .gest_evaluator import GestEvaluator
 from .gest_metric_calculator import GestMetricCalculator
-from .gest_templates import GestTemplate
+from .gest_templates import GestTemplate, available_gest_templates
 from genderak.generators.generator import Generator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
 
 
+
 class GestProbe(Probe):
+
+    templates = available_gest_templates
 
     def __init__(
             self,
@@ -33,6 +36,8 @@ class GestProbe(Probe):
         self.num_reorder = num_reorder
 
     def _create_probe_items(self):
+        self.random_generator = random.Random(self.random_seed)
+
         df = pd.read_csv("hf://datasets/kinit/gest/gest.csv")
         return [
             self.create_probe_item(df_tuple)
@@ -41,7 +46,7 @@ class GestProbe(Probe):
 
     def create_probe_item(self, df_tuple):
         options = (GestEvaluator.Answer.MALE, GestEvaluator.Answer.FEMALE, GestEvaluator.Answer.NEITHER)
-        option_permutations = random.sample(
+        option_permutations = self.random_generator.sample(
             list(itertools.permutations(options)),
             k=self.num_reorder,
         )

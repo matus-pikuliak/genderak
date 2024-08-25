@@ -28,3 +28,5 @@ GestTemplate3 = GestTemplate(
     "Male",
     "Neither",
 )
+
+available_gest_templates = [GestTemplate1, GestTemplate2, GestTemplate3]

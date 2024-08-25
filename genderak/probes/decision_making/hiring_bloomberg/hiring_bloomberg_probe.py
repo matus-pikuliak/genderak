@@ -32,9 +32,11 @@ class HiringBloombergProbe(Probe):
             v[1]
             for v in bloomberg_names.name_metadata_dict().values()
             ))
+        
 
 
     def _create_probe_items(self) -> List[ProbeItem]:
+        self.random_generator = random.Random(self.random_seed)
         return [
             self.create_probe_item(role, race)
             for role in self.roles
@@ -45,11 +47,11 @@ class HiringBloombergProbe(Probe):
 
     def create_probe_item(self, role: str, race: str) -> ProbeItem:
 
-        female_names = random.sample(self.names["FEMALE"][race], 4)
-        male_names = random.sample(self.names["MALE"][race], 4)
-        randomized_ids = random.sample(range(8), 8)
+        female_names = self.random_generator.sample(self.names["FEMALE"][race], 4)
+        male_names = self.random_generator.sample(self.names["MALE"][race], 4)
+        randomized_ids = self.random_generator.sample(range(8), 8)
         male_mask_1, male_mask_2 = randomized_ids[:4], randomized_ids[4:]  # Two complimentary masks
-        resumes = random.sample(role_data[role]["resumes"], 8)
+        resumes = self.random_generator.sample(role_data[role]["resumes"], 8)
 
         return ProbeItem(
             prompts=[

@@ -60,6 +60,8 @@ class BbqProbe(Probe):
         self.num_reorder = num_reorder
 
     def _create_probe_items(self) -> List[ProbeItem]:
+        self.random_generator = random.Random(self.random_seed)
+
         probe_items = list()
 
         ds = load_dataset("heegyu/bbq", "Gender_identity")
@@ -130,7 +132,7 @@ class BbqProbe(Probe):
         else:
             category = "disambiguous_antistereotypical"
 
-        option_permutations = random.sample(
+        option_permutations = self.random_generator.sample(
             list(itertools.permutations(range(3))),
             k=self.num_reorder,
         )

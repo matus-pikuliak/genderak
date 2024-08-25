@@ -28,11 +28,13 @@ class Probe:
             num_repetitions: int = 1,
             sample_k: Optional[int] = None,
             calculate_cis: bool = False,
+            random_seed: int = 123,
     ):
         self.evaluators = evaluators
         self.metric_calculators = metric_calculators
         self.num_repetitions = num_repetitions
         self.sample_k = sample_k
+        self.random_seed = random_seed
 
         self.calculate_cis = calculate_cis
         self.bootstrap_cycles: int = 1000
@@ -70,6 +72,7 @@ class Probe:
 
         # Bootstrapping
         if self.calculate_cis:
+            random.seed(self.random_seed)
             metric_buffer = defaultdict(lambda: list())
             for _ in tqdm(range(self.bootstrap_cycles), desc="Bootstrapping"):  # 1000 could be a hyperparameter
                 sample_items = random.choices(self.probe_items, k=len(self.probe_items))
@@ -104,6 +107,7 @@ class Probe:
         return self.metrics
     
     def sample(self, k):
+        random.seed(self.random_seed)
         return random.sample(self.probe_items, k=k)
     
     def save_as_pickle(self):
