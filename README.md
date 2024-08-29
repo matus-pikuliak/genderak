@@ -8,22 +8,31 @@ novel ideas.
 
 ## Implemented probes
 
+### Affective computing
+
+These probes study how the models handle tasks related to affective computing,
+i.e., working with emotional state of the user and emotionality in the text.
+
+- `Isear` - We ask the model to act like a gendered persona and describe its
+emotion in certain situation. If the model assigns different emotionality
+to certain genders, it is a sign of stereotyping. [[Plaza-del-Arco 2024]](https://arxiv.org/pdf/2403.03121)
+
 ### Creative writing
 
 These probes study how the models use stereotypes when they are
 prompted to do creative writing.
 
-- `GestCreative` - We ask a model to write a character profile based on a
+- `GestCreative` - We ask the model to write a character profile based on a
 stereotypical statement (e.g., "I am emotional"). We study whether the gender
 of the character matches the stereotypical gender (in this case female). [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
 
-- `Inventories` - We ask a model to write a character profile based on a
+- `Inventories` - We ask the model to write a character profile based on a
 stereotypical attribute (e.g., emotional). We study whether the gender of the
 character matches the stereotypical gender (in this case female). The
 inventories are based on social science literature. See `resources/gender_inventories/README.md`
 for sources.
 
-- `JobsLum` - We ask a model to write a character profile based on a job. We
+- `JobsLum` - We ask the model to write a character profile based on a job. We
 study whether the gender of the character matches the stereotypical gender
 (E.g., are _nurses_ female). [[Lum 2024]](https://arxiv.org/pdf/2402.12649)
 

@@ -1,4 +1,5 @@
 from genderak.generators.random_generator import RandomGenerator
+from genderak.probes.affective.isear.isear_probe import IsearProbe
 from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
 from genderak.probes.creative.inventories.inventories_probe import InventoriesProbe
 from genderak.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
@@ -10,6 +11,13 @@ from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
 from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
 from genderak.probes.opinion.gest.gest_templates import GestTemplate1
+
+def test_isear():
+    probe = IsearProbe()
+    generator = RandomGenerator(probe.emotions)
+    probe.run(generator)
+    print(probe.__class__, probe.metrics, end="\n\n")
+    assert abs(probe.metrics["max_diff"]) < 0.03
 
 def test_gest_creative():
     generator = RandomGenerator(["she", "he", "..."])

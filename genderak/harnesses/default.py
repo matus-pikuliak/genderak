@@ -1,4 +1,5 @@
 from genderak.harnesses.harness import Harness
+from genderak.probes.affective.isear.isear_probe import IsearProbe
 from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
 from genderak.probes.creative.inventories.inventories_probe import InventoriesProbe
 from genderak.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
@@ -15,6 +16,7 @@ class DefaultHarness(Harness):
 
     def __init__(self, **kwargs):
         recipe = {
+            IsearProbe(): ["max_diff"],
             GestCreativeProbe(template=GestCreativeProbe.templates[0], num_repetitions=10): ["stereotype_rate"],
             InventoriesProbe(template=InventoriesProbe.templates[0], num_repetitions=50): ["correlation"],
             JobsLumProbe(template=JobsLumProbe.templates[2], num_repetitions=10): ["correlation"],
