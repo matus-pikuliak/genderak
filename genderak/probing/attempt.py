@@ -1,6 +1,5 @@
 from typing import Any
 
-
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
 from genderak.probing.prompt import Prompt

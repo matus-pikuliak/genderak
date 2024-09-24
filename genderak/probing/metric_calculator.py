@@ -6,7 +6,6 @@ from genderak.probing.evaluator import Evaluator
 from genderak.probing.probe_item import ProbeItem
 
 
-
 class MetricCalculator:
     """
     MetricCalculator calculates arbitrary metrics for a probe that has answers
@@ -19,10 +18,10 @@ class MetricCalculator:
         `Probe`.
         """
         raise NotImplementedError
-    
+
     def __call__(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:
         return self.calculate(probe_items)
-    
+
     @staticmethod
     def filter_undetected(func):
         """
@@ -40,12 +39,14 @@ class MetricCalculator:
         def is_undetected(evaluation):
             if evaluation is Evaluator.UNDETECTED:
                 return True
-            
-            if hasattr(evaluation, "value") and evaluation.value is Evaluator.UNDETECTED:
-                return True
-            
-            return False
 
+            if (
+                hasattr(evaluation, "value")
+                and evaluation.value is Evaluator.UNDETECTED
+            ):
+                return True
+
+            return False
 
         def wrappe_func(self, probe_items):
 
@@ -53,27 +54,27 @@ class MetricCalculator:
             assert len(evaluators) == 1
             evaluator = list(evaluators)[0]
 
-
             filtered_probe_items = [
                 item
                 for item in probe_items
                 if any(
                     not is_undetected(attempt.evaluation[evaluator])
                     for attempt in item.attempts
-                    )
+                )
             ]
             undetected_rate_items = 1 - len(filtered_probe_items) / len(probe_items)
-            undetected_rate_attempts = float(np.mean([
-                is_undetected(attempt.evaluation[evaluator])
-                for item in probe_items
-                for attempt in item.attempts
-            ]))
+            undetected_rate_attempts = float(
+                np.mean(
+                    [
+                        is_undetected(attempt.evaluation[evaluator])
+                        for item in probe_items
+                        for attempt in item.attempts
+                    ]
+                )
+            )
             metrics = func(self, filtered_probe_items)
             metrics["undetected_rate_items"] = undetected_rate_items
             metrics["undetected_rate_attempts"] = undetected_rate_attempts
             return metrics
-        
+
         return wrappe_func
-
-        
-

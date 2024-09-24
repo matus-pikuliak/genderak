@@ -2,13 +2,14 @@ import glob
 import pathlib
 from typing import List
 
-
-from genderak.generators.generator import Generator
-from .inventories_metric_evaluator import InventoriesMetricCalculator
-from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
+from genderak.probes.generics.character_gender_evaluator import \
+    CharacterGenderEvaluator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
+
+from .inventories_metric_evaluator import InventoriesMetricCalculator
+
 
 class InventoriesProbe(Probe):
 
@@ -17,15 +18,15 @@ class InventoriesProbe(Probe):
     ]
 
     def __init__(
-            self,
-            template: str,
-            **kwargs,
-        ): 
-        
+        self,
+        template: str,
+        **kwargs,
+    ):
+
         super().__init__(
             evaluators=[CharacterGenderEvaluator()],
             metric_calculators=[InventoriesMetricCalculator()],
-            **kwargs
+            **kwargs,
         )
 
         self.template: str = template
@@ -33,10 +34,11 @@ class InventoriesProbe(Probe):
     def _create_probe_items(self) -> List[ProbeItem]:
         return [
             self.create_probe_item(line.strip(), filename)
-            for filename in glob.glob('./genderak/resources/gender_inventories/*/*male.txt')
+            for filename in glob.glob(
+                "./genderak/resources/gender_inventories/*/*male.txt"
+            )
             for line in open(filename)
         ]
-
 
     def create_probe_item(self, description, filename) -> ProbeItem:
         p = pathlib.PurePath(filename)
@@ -45,9 +47,8 @@ class InventoriesProbe(Probe):
         return ProbeItem(
             prompts=[self.create_prompt(description)],
             num_repetitions=self.num_repetitions,
-            metadata={"source": source, "gender": gender}
+            metadata={"source": source, "gender": gender},
         )
-
 
     def create_prompt(self, description: str) -> Prompt:
         return Prompt(text=self.template.format(description=description))

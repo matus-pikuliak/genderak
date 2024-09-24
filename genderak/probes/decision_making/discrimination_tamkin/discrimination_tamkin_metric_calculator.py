@@ -1,13 +1,15 @@
 from functools import cache
 from typing import Any, Counter, Dict, List
-from .discrimination_tamkin_genders import DiscriminationTamkinGenders
+
 from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
+from .discrimination_tamkin_genders import DiscriminationTamkinGenders
+
 
 class DiscriminationTamkinMetricCalculator(MetricCalculator):
-    
+
     @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:
         metrics = dict()
@@ -30,4 +32,4 @@ class DiscriminationTamkinMetricCalculator(MetricCalculator):
         return Counter(
             (attempt.evaluation[YesNoEvaluator], attempt.prompt.metadata["gender"])
             for attempt in probe_item.attempts
-        ) 
+        )

@@ -1,19 +1,22 @@
-from collections import defaultdict
-from enum import Enum
 import pickle
 import random
-from typing import List, Optional
 import uuid
+from collections import defaultdict
+from enum import Enum
+from typing import List, Optional
 
 import numpy as np
-from tqdm import tqdm
 from scipy.stats import norm
+from tqdm import tqdm
 
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
 from genderak.probing.metric_calculator import MetricCalculator
 
-status = Enum("status", ["NEW", "POPULATED", "GENERATED", "EVALUATED", "SCORED", "FINISHED"])
+status = Enum(
+    "status", ["NEW", "POPULATED", "GENERATED", "EVALUATED", "SCORED", "FINISHED"]
+)
+
 
 class Probe:
     """
@@ -22,13 +25,13 @@ class Probe:
     """
 
     def __init__(
-            self,
-            evaluators: List[Evaluator],
-            metric_calculators: List[MetricCalculator],
-            num_repetitions: int = 1,
-            sample_k: Optional[int] = None,
-            calculate_cis: bool = False,
-            random_seed: int = 123,
+        self,
+        evaluators: List[Evaluator],
+        metric_calculators: List[MetricCalculator],
+        num_repetitions: int = 1,
+        sample_k: Optional[int] = None,
+        calculate_cis: bool = False,
+        random_seed: int = 123,
     ):
         self.evaluators = evaluators
         self.metric_calculators = metric_calculators
@@ -39,7 +42,7 @@ class Probe:
         self.calculate_cis = calculate_cis
         self.bootstrap_cycles: int = 1000
         self.bootstrap_alpha: float = 0.95
-        
+
         self.metrics = dict()
         self.status = status.NEW
         self.uuid = uuid.uuid4()
@@ -74,13 +77,15 @@ class Probe:
         if self.calculate_cis:
             random.seed(self.random_seed)
             metric_buffer = defaultdict(lambda: list())
-            for _ in tqdm(range(self.bootstrap_cycles), desc="Bootstrapping"):  # 1000 could be a hyperparameter
+            for _ in tqdm(
+                range(self.bootstrap_cycles), desc="Bootstrapping"
+            ):  # 1000 could be a hyperparameter
                 sample_items = random.choices(self.probe_items, k=len(self.probe_items))
                 sample_metrics = self.metrics_for_set(sample_items).items()
                 for metric, value in sample_metrics:
                     if not np.isnan(value):
                         metric_buffer[metric].append(value)
-            
+
             metrics = dict()
             for metric_name, values in metric_buffer.items():
                 interval = norm.interval(self.bootstrap_alpha, *norm.fit(values))
@@ -89,14 +94,14 @@ class Probe:
         # No bootstrapping
         else:
             metrics = self.metrics_for_set(self.probe_items)
-            
+
         self.status = status.FINISHED
         return metrics
 
     def metrics_for_set(self, probe_items):
         metrics = dict()
         for metric_calculator in self.metric_calculators:
-                metrics.update(metric_calculator.calculate(probe_items))
+            metrics.update(metric_calculator.calculate(probe_items))
         return metrics
 
     def run(self, generator):
@@ -105,11 +110,11 @@ class Probe:
         self.evaluate()
         self.metrics = self.calculate_metrics()
         return self.metrics
-    
+
     def sample(self, k):
         random.seed(self.random_seed)
         return random.sample(self.probe_items, k=k)
-    
+
     def save_as_pickle(self):
         with open(f"./runs/{self.uuid}.pkl", "wb") as file:
             pickle.dump(self, file)

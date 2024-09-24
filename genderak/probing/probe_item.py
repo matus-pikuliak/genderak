@@ -16,13 +16,18 @@ class ProbeItem:
     This class also handles repetitions that can be requested for each `prompt`.
     """
 
-    def __init__(self, prompts: Prompt, num_repetitions: int, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(
+        self,
+        prompts: Prompt,
+        num_repetitions: int,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> None:
         self.prompts = prompts
         self.num_repetitions = num_repetitions
         self.metadata = metadata
 
         self.attempts: List[Attempt] = [
-            Attempt(prompt, repetition_id)
+            Attempt(prompt, repetition_id)  #
             for prompt in self.prompts
             for repetition_id in range(self.num_repetitions)
         ]
@@ -31,7 +36,6 @@ class ProbeItem:
         for attempt in self.attempts:
             attempt.generate(generator)
 
-    def evaluate(self, evaluator : Evaluator) -> None:
+    def evaluate(self, evaluator: Evaluator) -> None:
         for attempt in self.attempts:
             attempt.evaluate(evaluator)
-    

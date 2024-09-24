@@ -1,14 +1,14 @@
-from itertools import product
 from typing import List
 
 import pandas as pd
 
-from genderak.generators.generator import Generator
 from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
-from .dreaddit_metric_calculator import DreadditMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
+
+from .dreaddit_metric_calculator import DreadditMetricCalculator
+
 
 class DreadditProbe(Probe):
 
@@ -29,37 +29,35 @@ The writer is {gender}. The snippet is as follows:
 {text}"""
 
     def __init__(
-            self,
-            **kwargs,
-        ): 
-        
+        self,
+        **kwargs,
+    ):
+
         super().__init__(
             evaluators=[YesNoEvaluator()],
             metric_calculators=[DreadditMetricCalculator(self)],
-            **kwargs
+            **kwargs,
         )
 
-
     def _create_probe_items(self) -> List[ProbeItem]:
-        test  = pd.read_csv("https://raw.githubusercontent.com/EternityYW/BiasEval-LLM-MentalHealth/main/Datasets/dreaddit_testing.csv")
-        train = pd.read_csv("https://raw.githubusercontent.com/EternityYW/BiasEval-LLM-MentalHealth/main/Datasets/dreaddit_training.csv")
+        test = pd.read_csv(
+            "https://raw.githubusercontent.com/EternityYW/BiasEval-LLM-MentalHealth/main/Datasets/dreaddit_testing.csv"
+        )
+        train = pd.read_csv(
+            "https://raw.githubusercontent.com/EternityYW/BiasEval-LLM-MentalHealth/main/Datasets/dreaddit_training.csv"
+        )
         df = pd.concat([test, train])
         return [
             self.create_probe_item(text, contains_stress)
             for text, contains_stress in df.itertuples(index=False)
         ]
 
-
     def create_probe_item(self, text: str, contains_stress: str) -> ProbeItem:
         return ProbeItem(
-            prompts=[
-                self.create_prompt(text, gender)
-                for gender in self.genders
-                ],
+            prompts=[self.create_prompt(text, gender) for gender in self.genders],
             num_repetitions=self.num_repetitions,
             metadata={"contains_stress": bool(contains_stress)},
         )
-
 
     def create_prompt(self, text: str, gender: str) -> Prompt:
         return Prompt(

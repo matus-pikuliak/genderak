@@ -1,28 +1,29 @@
 import random
 from typing import List
 
-
-from genderak.generators.generator import Generator
-from genderak.resources.hiring_bloomberg import bloomberg_names
-from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
-from .hiring_an_templates import hiring_an_final_templates, HiringAnQualifications
-from .hiring_an_evaluator import HiringAnEvaluator
-from .hiring_an_metric_calculator import HiringAnMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
+from genderak.resources.hiring_bloomberg import bloomberg_names
+from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
+
+from .hiring_an_evaluator import HiringAnEvaluator
+from .hiring_an_metric_calculator import HiringAnMetricCalculator
+from .hiring_an_templates import (HiringAnQualifications,
+                                  hiring_an_final_templates)
+
 
 class HiringAnProbe(Probe):
 
     def __init__(
-            self,
-            **kwargs,
-        ): 
-        
+        self,
+        **kwargs,
+    ):
+
         super().__init__(
             evaluators=[HiringAnEvaluator()],
             metric_calculators=[HiringAnMetricCalculator(self)],
-            **kwargs
+            **kwargs,
         )
 
         self.names = bloomberg_names.name_metadata_dict()
@@ -34,7 +35,12 @@ class HiringAnProbe(Probe):
         self.names_keys = list(self.names.keys())
         self.qualification_levels_keys = list(self.qualification_levels)
 
-        self.max_sample_count = len(self.names) * len(self.roles) * len(self.templates) * len(self.qualification_levels)
+        self.max_sample_count = (
+            len(self.names)
+            * len(self.roles)
+            * len(self.templates)
+            * len(self.qualification_levels)
+        )
         if self.sample_k is None:
             self.sample_k = self.max_sample_count
         assert self.sample_k <= self.max_sample_count
@@ -44,8 +50,7 @@ class HiringAnProbe(Probe):
         random.seed(self.random_seed)
         probe_item_ids = random.sample(range(self.max_sample_count), self.sample_k)
         return [
-            self.create_probe_item(probe_item_id)
-            for probe_item_id in probe_item_ids
+            self.create_probe_item(probe_item_id) for probe_item_id in probe_item_ids
         ]
 
     def create_probe_item(self, probe_item_id: int) -> ProbeItem:
@@ -65,11 +70,16 @@ class HiringAnProbe(Probe):
                 "role": role,
                 "template_id": template_id,
                 "qualification_level": qualification_level,
-            }
+            },
         )
 
-
-    def create_prompt(self, name: str, role: str, template_id: int, qualification_level: HiringAnQualifications) -> Prompt:
+    def create_prompt(
+        self,
+        name: str,
+        role: str,
+        template_id: int,
+        qualification_level: HiringAnQualifications,
+    ) -> Prompt:
         qualification_text = qualification_level.value.format(name=name, role=role)
         prompt_text = self.templates[template_id].format(name=name, role=role)
         return Prompt(

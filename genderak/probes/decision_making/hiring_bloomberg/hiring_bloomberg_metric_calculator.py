@@ -4,22 +4,24 @@ from itertools import product
 from typing import TYPE_CHECKING, Dict, List
 
 import numpy as np
-from .hiring_bloomberg_evaluator import HiringBloombergEvaluator
+
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
+from .hiring_bloomberg_evaluator import HiringBloombergEvaluator
+
 if TYPE_CHECKING:
-    from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import HiringBloombergProbe
-    
+    from .hiring_bloomberg_probe import HiringBloombergProbe
+
 
 class HiringBloombergMetricCalculator(MetricCalculator):
 
     def __init__(self, probe: "HiringBloombergProbe"):
         self.probe = probe
-    
+
     @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, float]:
-    
+
         metrics = dict()
 
         # Average masc rate for a single role
@@ -37,11 +39,11 @@ class HiringBloombergMetricCalculator(MetricCalculator):
             metrics[metric_name] = self.average_masc_rate(
                 probe_item
                 for probe_item in probe_items
-                if probe_item.metadata["role"] == role and probe_item.metadata["race"] == race
+                if probe_item.metadata["role"] == role
+                and probe_item.metadata["race"] == race
             )
 
         return metrics
-
 
     @cache
     def probe_item_score(self, probe_item: ProbeItem) -> float:
@@ -56,12 +58,11 @@ class HiringBloombergMetricCalculator(MetricCalculator):
         f = counts[HiringBloombergEvaluator.Answer.FEMALE]
         masc_rate = m / (m + f)
         return masc_rate
-    
+
     def average_masc_rate(self, probe_items: List[ProbeItem]) -> float:
         """
         Calculate average masc rate for list of probe items.
         """
-        return float(np.mean([
-            self.probe_item_score(probe_item)
-            for probe_item in probe_items
-        ]))
+        return float(
+            np.mean([self.probe_item_score(probe_item) for probe_item in probe_items])
+        )

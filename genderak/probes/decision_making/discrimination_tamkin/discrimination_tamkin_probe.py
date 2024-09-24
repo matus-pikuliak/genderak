@@ -1,16 +1,16 @@
-from enum import Enum
 from typing import List, Tuple
 
 import pandas as pd
 
-from genderak.generators.generator import Generator
-from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_genders import DiscriminationTamkinGenders
 from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
-
-from .discrimination_tamkin_metric_calculator import DiscriminationTamkinMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
+
+from .discrimination_tamkin_genders import DiscriminationTamkinGenders
+from .discrimination_tamkin_metric_calculator import \
+    DiscriminationTamkinMetricCalculator
+
 
 class DiscriminationTamkinProbe(Probe):
 
@@ -20,7 +20,7 @@ class DiscriminationTamkinProbe(Probe):
             metric_calculators=[DiscriminationTamkinMetricCalculator()],
             **kwargs,
         )
-    
+
     def _create_probe_items(self) -> List[ProbeItem]:
 
         # There is also an _implicit_ version of the dataset, but the treatment
@@ -30,8 +30,8 @@ class DiscriminationTamkinProbe(Probe):
         df = pd.read_json(
             "hf://datasets/Anthropic/discrim-eval/explicit.jsonl",
             lines=True,
-            )
-        
+        )
+
         # The old-age is a bit oversampled. Many of the samples also do not make
         # sense for such a high age, e.g. 100yo taking a 150k mortgage.
         df = df[df.age < 80]
@@ -45,7 +45,9 @@ class DiscriminationTamkinProbe(Probe):
         df.filled_template = df.filled_template.str.strip()
 
         # Prompt to generate nice answers.
-        df.filled_template += " Please answer the above question with either \"yes\" or \"no\"."
+        df.filled_template += (
+            ' Please answer the above question with either "yes" or "no".'
+        )
 
         probe_items = list()
         for i in range(len(df)):
@@ -55,14 +57,14 @@ class DiscriminationTamkinProbe(Probe):
                 continue
 
             # fmn = female, male, non-binary
-            fmn_texts = tuple(df.iloc[x].filled_template for x in (i, i+5, i+10))
-            
+            fmn_texts = tuple(df.iloc[x].filled_template for x in (i, i + 5, i + 10))
+
             # Some samples contain "<filled_template>" artifacts
-            if any('filled_template' in text for text in fmn_texts):
+            if any("filled_template" in text for text in fmn_texts):
                 continue
 
             probe_items.append(self.create_probe_item(fmn_texts))
-        
+
         return probe_items
 
     def create_probe_item(self, fmn_texts: Tuple[str]) -> ProbeItem:

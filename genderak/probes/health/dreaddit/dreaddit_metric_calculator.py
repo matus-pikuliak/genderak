@@ -1,7 +1,7 @@
 from collections import Counter
-from functools import cache
 from itertools import combinations
 from typing import Dict, List
+
 from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe import Probe
@@ -15,7 +15,7 @@ class DreadditMetricCalculator(MetricCalculator):
 
     @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, float]:
-    
+
         metrics = dict()
 
         results = Counter(
@@ -53,5 +53,3 @@ class DreadditMetricCalculator(MetricCalculator):
         )
 
         return metrics
-
-    

@@ -1,4 +1,5 @@
 import random
+
 from genderak.generators.generator import Generator
 
 
@@ -10,6 +11,6 @@ class RandomGenerator(Generator):
 
     def generate(self, _):
         return self.random_generator.choice(self.options)
-    
+
     def set_generator(self, seed=None):
         self.random_generator = random.Random(seed)

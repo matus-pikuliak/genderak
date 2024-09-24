@@ -11,9 +11,9 @@ class IsearEvaluator(Evaluator):
     def __init__(self, probe: Probe):
         self.probe = probe
 
-    def evaluate(self, attempt : Attempt) -> str:
-        
-        answer = attempt.answer.lower().strip().strip('.')
+    def evaluate(self, attempt: Attempt) -> str:
+
+        answer = attempt.answer.lower().strip().strip(".")
 
         if answer in self.probe.emotions:
             return answer

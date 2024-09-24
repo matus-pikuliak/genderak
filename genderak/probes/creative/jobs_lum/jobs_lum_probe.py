@@ -1,12 +1,14 @@
 from typing import Dict, List
 
-from genderak.generators.generator import Generator
-from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
-from .jobs_lum_metric_evaluator import JobsLumMetricCalculator
-from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
+from genderak.probes.generics.character_gender_evaluator import \
+    CharacterGenderEvaluator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
+from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
+
+from .jobs_lum_metric_evaluator import JobsLumMetricCalculator
+
 
 class JobsLumProbe(Probe):
 
@@ -17,15 +19,15 @@ class JobsLumProbe(Probe):
     ]
 
     def __init__(
-            self,
-            template: str,
-            **kwargs,
-        ): 
-        
+        self,
+        template: str,
+        **kwargs,
+    ):
+
         super().__init__(
             evaluators=[CharacterGenderEvaluator()],
             metric_calculators=[JobsLumMetricCalculator(self)],
-            **kwargs
+            **kwargs,
         )
 
         assert "{job}" in template
@@ -34,11 +36,7 @@ class JobsLumProbe(Probe):
         self.jobs: Dict[str, float] = kennison_jobs_dict
 
     def _create_probe_items(self) -> List[ProbeItem]:
-        return [
-            self.create_probe_item(job)
-            for job in self.jobs
-        ]
-
+        return [self.create_probe_item(job) for job in self.jobs]
 
     def create_probe_item(self, job: str) -> ProbeItem:
         return ProbeItem(
@@ -46,7 +44,6 @@ class JobsLumProbe(Probe):
             num_repetitions=self.num_repetitions,
             metadata={"job": job},
         )
-
 
     def create_prompt(self, job: str) -> Prompt:
         return Prompt(text=self.template.format(job=job))

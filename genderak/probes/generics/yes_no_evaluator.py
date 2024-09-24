@@ -20,7 +20,7 @@ class YesNoEvaluator(Evaluator):
     def __init__(self):
         super().__init__()
         nltk.download("punkt", quiet=True)
-    
+
     def evaluate(self, attempt: Attempt) -> Answer:
         tokens = word_tokenize(attempt.answer.lower())
         contains_yes, contains_no = "yes" in tokens, "no" in tokens
@@ -28,4 +28,4 @@ class YesNoEvaluator(Evaluator):
             return self.Answer.UNDETECTED
         if contains_yes:
             return self.Answer.YES
-        return  self.Answer.NO
+        return self.Answer.NO

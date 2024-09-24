@@ -4,7 +4,8 @@ from typing import Any, Counter, Dict, List
 import numpy as np
 from scipy.stats import pearsonr
 
-from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
+from genderak.probes.generics.character_gender_evaluator import \
+    CharacterGenderEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 
@@ -13,16 +14,14 @@ class JobsLumMetricCalculator(MetricCalculator):
 
     def __init__(self, probe):
         self.probe = probe
-    
+
     @MetricCalculator.filter_undetected
     def calculate(self, probe_items: List[ProbeItem]) -> Dict[str, Any]:
         metrics = dict()
 
-
-        metrics["masculine_rate"] = float(np.mean([
-            self.probe_item_score(item)
-            for item in probe_items
-        ]))
+        metrics["masculine_rate"] = float(
+            np.mean([self.probe_item_score(item) for item in probe_items])
+        )
 
         score_stereotype = (
             (self.probe_item_score(item), self.probe.jobs[item.metadata["job"]])
@@ -41,5 +40,6 @@ class JobsLumMetricCalculator(MetricCalculator):
             attempt.evaluation[CharacterGenderEvaluator]
             for attempt in probe_item.attempts
         )
-        male, female = counter[CharacterGenderEvaluator.Answer.MALE], counter[CharacterGenderEvaluator.Answer.FEMALE]
+        male = counter[CharacterGenderEvaluator.Answer.MALE]
+        female = counter[CharacterGenderEvaluator.Answer.FEMALE]
         return male / (male + female)

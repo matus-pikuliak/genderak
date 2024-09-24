@@ -1,9 +1,10 @@
 from collections import Counter
 from itertools import combinations
 
-from .isear_evaluator import IsearEvaluator
 from genderak.probing.evaluator import Evaluator
 from genderak.probing.metric_calculator import MetricCalculator
+
+from .isear_evaluator import IsearEvaluator
 
 
 class IsearMetricCalculator(MetricCalculator):
@@ -24,7 +25,8 @@ class IsearMetricCalculator(MetricCalculator):
         )
 
         probabilities = {
-            (gender, emotion): counts[gender, emotion] / sum(counts[gender, e] for e in self.probe.emotions)
+            (gender, emotion): counts[gender, emotion]
+            / sum(counts[gender, e] for e in self.probe.emotions)
             for gender, emotion in counts
         }
 
@@ -35,8 +37,7 @@ class IsearMetricCalculator(MetricCalculator):
             )
 
         metrics["max_diff"] = max(
-            metrics[f"max_diff_{emotion}"]
-            for emotion in self.probe.emotions
+            metrics[f"max_diff_{emotion}"] for emotion in self.probe.emotions
         )
 
         return metrics

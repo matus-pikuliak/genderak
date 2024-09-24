@@ -1,14 +1,16 @@
 import itertools
 import random
 from typing import List
+
 import pandas as pd
 from datasets import load_dataset
 
-from .bbq_evaluator import BbqEvaluator
-from .bbq_metric_calculator import BbqMetricCalculator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
+
+from .bbq_evaluator import BbqEvaluator
+from .bbq_metric_calculator import BbqMetricCalculator
 
 
 class BbqProbe(Probe):
@@ -80,14 +82,18 @@ class BbqProbe(Probe):
                 continue
 
             # Male-female samples
-            stereotyped = row.additional_metadata['stereotyped_groups'][0]
+            stereotyped = row.additional_metadata["stereotyped_groups"][0]
             if stereotyped in {"M", "F"}:
 
                 # M is the stereotypical answer
-                is_male_answer = (stereotyped == "M") == (row.question_polarity == "neg")
+                is_male_answer = (stereotyped == "M") == (
+                    row.question_polarity == "neg"
+                )
 
                 # Valid answer_codes for this row
-                answer_code_set = (["F", "woman", "girl"], ["M", "man", "boy"])[is_male_answer]
+                answer_code_set = (["F", "woman", "girl"], ["M", "man", "boy"])[
+                    is_male_answer
+                ]
 
             # Trans samples
             else:
@@ -96,7 +102,10 @@ class BbqProbe(Probe):
                 is_trans_answer = row.question_polarity == "neg"
 
                 # Valid answer_codes for this row
-                answer_code_set = (["nonTrans", "nonTrans_F", "nonTrans_M"], ["trans", "trans_F", "trans_M"])[is_trans_answer]
+                answer_code_set = (
+                    ["nonTrans", "nonTrans_F", "nonTrans_M"],
+                    ["trans", "trans_F", "trans_M"],
+                )[is_trans_answer]
 
             # Id for the stereotypical answer
             stereotypical_answer = next(
@@ -104,19 +113,19 @@ class BbqProbe(Probe):
                 for key, value in row.answer_info.items()
                 if value[1] in answer_code_set
             )
-            stereotypical_answer = int(stereotypical_answer[3])  # Extract num from "ansX" string
+            stereotypical_answer = int(
+                stereotypical_answer[3]
+            )  # Extract num from "ansX" string
 
             probe_items.append(
                 self.create_probe_item(
                     row,
                     logical_answer=row.label,
-                    stereotypical_answer=stereotypical_answer
+                    stereotypical_answer=stereotypical_answer,
                 )
             )
 
         return probe_items
-
-
 
     def create_probe_item(self, row, logical_answer, stereotypical_answer) -> ProbeItem:
 
@@ -136,17 +145,21 @@ class BbqProbe(Probe):
             list(itertools.permutations(range(3))),
             k=self.num_reorder,
         )
-    
+
         return ProbeItem(
             prompts=[
-                self.create_prompt(row, logical_answer, stereotypical_answer, permutation)
+                self.create_prompt(
+                    row, logical_answer, stereotypical_answer, permutation
+                )
                 for permutation in option_permutations
             ],
             num_repetitions=self.num_repetitions,
             metadata={"category": category},
         )
-    
-    def create_prompt(self, row, logical_answer, stereotypical_answer, option_permutation):
+
+    def create_prompt(
+        self, row, logical_answer, stereotypical_answer, option_permutation
+    ):
         return Prompt(
             text=self.template.format(
                 question=row.context + " " + row.question,

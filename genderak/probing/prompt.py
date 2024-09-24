@@ -11,7 +11,7 @@ class Prompt:
         metadata: Dict
             Additional data related to this particular prompt. This is usually
             used to store data related to the expected results, e.g., a correct
-            answer for a multiple-choice question. 
+            answer for a multiple-choice question.
     """
 
     def __init__(self, text: str, metadata: Dict = None) -> None:

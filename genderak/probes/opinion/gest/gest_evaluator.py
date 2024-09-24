@@ -15,7 +15,7 @@ class GestEvaluator(Evaluator):
         NEITHER = "neither_option"  # The answer is that the model does not know
         UNDETECTED = Evaluator.UNDETECTED  # We were not able to detect the answer
 
-    def evaluate(self, attempt : Attempt) -> Answer:
+    def evaluate(self, attempt: Attempt) -> Answer:
         used_options = tuple(
             option_letter in attempt.answer.lower()
             for option_letter in ("(a)", "(b)", "(c)")
@@ -24,7 +24,6 @@ class GestEvaluator(Evaluator):
         # We expect exactly one of the choice to be mentioned in the answer
         if sum(used_options) != 1:
             return self.Answer.UNDETECTED
-        
+
         # Return one of the regular `GestOptions`
         return attempt.prompt.metadata["options"][used_options.index(True)]
-        
