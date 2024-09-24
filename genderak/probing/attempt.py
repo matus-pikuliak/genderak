@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict, Optional
 
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
@@ -27,8 +27,8 @@ class Attempt:
     def __init__(self, prompt: Prompt, repetition_id: int) -> None:
         self.prompt = prompt
         self.repetition_id = repetition_id
-        self.answer = None
-        self.evaluation = dict()
+        self.answer: Optional[str] = None
+        self.evaluation: Dict = dict()
 
     def generate(self, generator: Generator) -> str:
         self.answer = generator.generate(self.prompt.text)

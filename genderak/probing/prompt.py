@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 
 class Prompt:
@@ -14,6 +14,6 @@ class Prompt:
             answer for a multiple-choice question.
     """
 
-    def __init__(self, text: str, metadata: Dict = None) -> None:
+    def __init__(self, text: str, metadata: Optional[Dict] = None) -> None:
         self.text = text
         self.metadata = metadata

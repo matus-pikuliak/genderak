@@ -18,7 +18,7 @@ class ProbeItem:
 
     def __init__(
         self,
-        prompts: Prompt,
+        prompts: List[Prompt],
         num_repetitions: int,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> None:

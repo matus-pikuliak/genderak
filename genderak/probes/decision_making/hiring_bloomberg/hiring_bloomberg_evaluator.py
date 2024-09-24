@@ -34,7 +34,7 @@ class HiringBloombergEvaluator(Evaluator):
         return self.Answer.MALE
 
     @staticmethod
-    def name_index(name: str, answer: str) -> Union[int, math.inf]:
+    def name_index(name: str, answer: str) -> Union[int, float]:
         if name in answer:
             return answer.index(name)
         return math.inf
