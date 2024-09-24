@@ -1,7 +1,6 @@
 from typing import Dict, List
 
-from genderak.probes.generics.character_gender_evaluator import \
-    CharacterGenderEvaluator
+from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt

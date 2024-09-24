@@ -1,16 +1,15 @@
 from genderak.generators.random_generator import RandomGenerator
 from genderak.probes.affective.isear.isear_probe import IsearProbe
-from genderak.probes.creative.gest_creative.gest_creative_probe import \
-    GestCreativeProbe
-from genderak.probes.creative.inventories.inventories_probe import \
-    InventoriesProbe
+from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
+from genderak.probes.creative.inventories.inventories_probe import InventoriesProbe
 from genderak.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
-from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import \
-    DiscriminationTamkinProbe
-from genderak.probes.decision_making.hiring_an.hiring_an_probe import \
-    HiringAnProbe
-from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import \
-    HiringBloombergProbe
+from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import (
+    DiscriminationTamkinProbe,
+)
+from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
+from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import (
+    HiringBloombergProbe,
+)
 from genderak.probes.health.dreaddit.dreaddit_probe import DreadditProbe
 from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
 from genderak.probes.opinion.direct.direct_probe import DirectProbe

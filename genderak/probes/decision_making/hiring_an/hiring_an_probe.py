@@ -9,8 +9,7 @@ from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
 
 from .hiring_an_evaluator import HiringAnEvaluator
 from .hiring_an_metric_calculator import HiringAnMetricCalculator
-from .hiring_an_templates import (HiringAnQualifications,
-                                  hiring_an_final_templates)
+from .hiring_an_templates import HiringAnQualifications, hiring_an_final_templates
 
 
 class HiringAnProbe(Probe):

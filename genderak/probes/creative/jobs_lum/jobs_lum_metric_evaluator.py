@@ -4,8 +4,7 @@ from typing import Any, Counter, Dict, List
 import numpy as np
 from scipy.stats import pearsonr
 
-from genderak.probes.generics.character_gender_evaluator import \
-    CharacterGenderEvaluator
+from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
 from genderak.probing.probe_item import ProbeItem
 

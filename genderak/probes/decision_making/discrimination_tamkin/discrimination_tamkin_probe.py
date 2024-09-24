@@ -8,8 +8,9 @@ from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
 
 from .discrimination_tamkin_genders import DiscriminationTamkinGenders
-from .discrimination_tamkin_metric_calculator import \
-    DiscriminationTamkinMetricCalculator
+from .discrimination_tamkin_metric_calculator import (
+    DiscriminationTamkinMetricCalculator,
+)
 
 
 class DiscriminationTamkinProbe(Probe):

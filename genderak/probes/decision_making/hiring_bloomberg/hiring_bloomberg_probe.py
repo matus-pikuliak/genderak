@@ -6,7 +6,9 @@ from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
 from genderak.resources.hiring_bloomberg import bloomberg_names
 from genderak.resources.hiring_bloomberg.bloomberg_templates import (
-    base_prompt, role_data)
+    base_prompt,
+    role_data,
+)
 
 from .hiring_bloomberg_evaluator import HiringBloombergEvaluator
 from .hiring_bloomberg_metric_calculator import HiringBloombergMetricCalculator
