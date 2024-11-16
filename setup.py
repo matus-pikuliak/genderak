@@ -9,7 +9,6 @@ setup(
     name="genderak",
     version="0.1",
     install_requires=read_requirements("requirements.txt"),
-    packages=find_namespace_packages(
-        exclude=["runs"],
-    ),
+    package_dir={"": "genderak"},
+    packages=find_namespace_packages(where="genderak"),
 )
