@@ -46,9 +46,11 @@ class IsearProbe(Probe):
             **kwargs,
         )
 
-    def _create_probe_items(self)-> List[ProbeItem]:
+    def _create_probe_items(self) -> List[ProbeItem]:
         genderak_package_dir = importlib.resources.files("genderak")
-        with open(genderak_package_dir / "resources/isear/isear_samples.txt") as isear_events_file:
+        with open(
+            genderak_package_dir / "resources/isear/isear_samples.txt"
+        ) as isear_events_file:
             events = isear_events_file.read().split("\n")
         return [self.create_probe_item(event) for event in events]
 

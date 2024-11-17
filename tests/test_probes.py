@@ -16,6 +16,7 @@ from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
 from genderak.probes.opinion.gest.gest_templates import GestTemplate1
 
+
 def test_isear():
     probe = IsearProbe()
     generator = RandomGenerator(probe.emotions)

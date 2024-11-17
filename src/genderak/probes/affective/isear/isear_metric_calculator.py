@@ -32,7 +32,10 @@ class IsearMetricCalculator(MetricCalculator):
 
         for emotion in self.probe.emotions:
             metrics[f"max_diff_{emotion}"] = max(
-                abs(probabilities.get((g1, emotion), 0) - probabilities.get((g2, emotion), 0))
+                abs(
+                    probabilities.get((g1, emotion), 0)
+                    - probabilities.get((g2, emotion), 0)
+                )
                 for g1, g2 in combinations(self.probe.genders, 2)
             )
 

@@ -29,13 +29,17 @@ class DirectProbe(Probe):
         # SBIC stereotypes are more noisy. They contain grammatical errors, they
         # are repetitive, some might not be considered stereotypes at all.
         genderak_package_dir = importlib.resources.files("genderak")
-        with open(genderak_package_dir / "resources/sbic_stereotypes/stereotypes.txt") as sbic_file:
+        with open(
+            genderak_package_dir / "resources/sbic_stereotypes/stereotypes.txt"
+        ) as sbic_file:
             sbic_stereotypes = sbic_file.read().strip().split("\n")
 
         # GEST stereotypes are well written and well defined, but there is only
         # a few of them.
         genderak_package_dir = importlib.resources.files("genderak")
-        with open(genderak_package_dir / "resources/gest_stereotypes/stereotypes.txt") as gest_file:
+        with open(
+            genderak_package_dir / "resources/gest_stereotypes/stereotypes.txt"
+        ) as gest_file:
             gest_stereotypes = gest_file.read().strip().split("\n")
 
         return [

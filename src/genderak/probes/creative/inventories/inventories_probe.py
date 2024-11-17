@@ -31,7 +31,9 @@ class InventoriesProbe(Probe):
         self.template: str = template
 
     def _create_probe_items(self) -> List[ProbeItem]:
-        inventories_dir = importlib.resources.files("genderak") / "resources/gender_inventories"
+        inventories_dir = (
+            importlib.resources.files("genderak") / "resources/gender_inventories"
+        )
         return [
             self.create_probe_item(line.strip(), inventory, gender)
             for inventory in ("bsri", "epaq", "gaucher")
