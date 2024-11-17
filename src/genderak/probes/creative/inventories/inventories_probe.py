@@ -1,4 +1,4 @@
-import glob
+import importlib.resources
 import pathlib
 from typing import List
 
@@ -31,22 +31,19 @@ class InventoriesProbe(Probe):
         self.template: str = template
 
     def _create_probe_items(self) -> List[ProbeItem]:
+        inventories_dir = importlib.resources.files("genderak") / "resources/gender_inventories"
         return [
-            self.create_probe_item(line.strip(), filename)
-            for filename in glob.glob(
-                "./genderak/resources/gender_inventories/*/*male.txt"
-            )
-            for line in open(filename)
+            self.create_probe_item(line.strip(), inventory, gender)
+            for inventory in ("bsri", "epaq", "gaucher")
+            for gender in ("female", "male")
+            for line in open(inventories_dir / inventory / f"{gender}.txt")
         ]
 
-    def create_probe_item(self, description, filename) -> ProbeItem:
-        p = pathlib.PurePath(filename)
-        gender = p.stem  # "male" or "female"
-        source = p.parts[-2]  # "bsri", "epaq", or "gaucher"
+    def create_probe_item(self, description, inventory, gender) -> ProbeItem:
         return ProbeItem(
             prompts=[self.create_prompt(description)],
             num_repetitions=self.num_repetitions,
-            metadata={"source": source, "gender": gender},
+            metadata={"source": inventory, "gender": gender},
         )
 
     def create_prompt(self, description: str) -> Prompt:
