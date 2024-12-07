@@ -4,7 +4,7 @@ from genderak.probes.generics.character_gender_evaluator import CharacterGenderE
 from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
-from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
+from genderak.resources.kennison_jobs.kennison_jobs import create_kennison_jobs_dict
 
 from .jobs_lum_metric_evaluator import JobsLumMetricCalculator
 
@@ -32,7 +32,7 @@ class JobsLumProbe(Probe):
         assert "{job}" in template
         self.template: str = template
 
-        self.jobs: Dict[str, float] = kennison_jobs_dict
+        self.jobs: Dict[str, float] = create_kennison_jobs_dict()
 
     def _create_probe_items(self) -> List[ProbeItem]:
         return [self.create_probe_item(job) for job in self.jobs]

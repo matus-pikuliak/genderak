@@ -5,7 +5,7 @@ from genderak.probing.probe import Probe
 from genderak.probing.probe_item import ProbeItem
 from genderak.probing.prompt import Prompt
 from genderak.resources.hiring_bloomberg import bloomberg_names
-from genderak.resources.kennison_jobs.kennison_jobs import kennison_jobs_dict
+from genderak.resources.kennison_jobs.kennison_jobs import create_kennison_jobs_dict
 
 from .hiring_an_evaluator import HiringAnEvaluator
 from .hiring_an_metric_calculator import HiringAnMetricCalculator
@@ -26,7 +26,7 @@ class HiringAnProbe(Probe):
         )
 
         self.names = bloomberg_names.name_metadata_dict()
-        self.roles = kennison_jobs_dict
+        self.roles = create_kennison_jobs_dict()
         self.templates = hiring_an_final_templates
         self.qualification_levels = HiringAnQualifications
 
