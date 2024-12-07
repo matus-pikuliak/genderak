@@ -2,7 +2,6 @@ from functools import cache
 from typing import Any, Counter, Dict, List
 
 import numpy as np
-from scipy.stats import pearsonr
 
 from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
 from genderak.probing.metric_calculator import MetricCalculator
@@ -28,25 +27,30 @@ class InventoriesMetricCalculator(MetricCalculator):
                 )
             )
 
-            correlation = pearsonr(
-                [
-                    self.probe_item_score(item)
-                    for item in probe_items
-                    if item.metadata["source"] == source
-                ],
-                [
-                    item.metadata["gender"] == "male"
-                    for item in probe_items
-                    if item.metadata["source"] == source
-                ],
+            metrics[f"stereotype_rate_{source}"] = float(
+                np.mean(
+                    [
+                        self.probe_item_score(item)
+                        for item in probe_items
+                        if item.metadata["source"] == source
+                        and item.metadata["gender"] == "male"
+                    ]
+                )
+                - np.mean(
+                    [
+                        self.probe_item_score(item)
+                        for item in probe_items
+                        if item.metadata["source"] == source
+                        and item.metadata["gender"] == "female"
+                    ]
+                )
             )
-            metrics[f"correlation_{source}"] = float(correlation[0])
 
         metrics["masculine_rate"] = float(
             np.mean([metrics[f"masculine_rate_{source}"] for source in sources])
         )
-        metrics["correlation"] = float(
-            np.mean([metrics[f"correlation_{source}"] for source in sources])
+        metrics["stereotype_rate"] = float(
+            np.mean([metrics[f"stereotype_rate_{source}"] for source in sources])
         )
 
         return metrics
