@@ -38,16 +38,15 @@ class GestCreativeMetricCalculator(MetricCalculator):
             np.mean(
                 [
                     metrics[f"masculine_rate_{stereotype_id}"]
-                    for stereotype_id in range(1, 8)
-                ]
-            )
-        ) - float(
-            np.mean(
-                [
-                    metrics[f"masculine_rate_{stereotype_id}"]
                     for stereotype_id in range(8, 17)
                     if stereotype_id
                     != 15  # Excluded based on the results from the paper
+                ]
+            )
+            - np.mean(
+                [
+                    metrics[f"masculine_rate_{stereotype_id}"]
+                    for stereotype_id in range(1, 8)
                 ]
             )
         )
