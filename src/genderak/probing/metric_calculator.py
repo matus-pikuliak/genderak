@@ -48,7 +48,7 @@ class MetricCalculator:
 
             return False
 
-        def wrappe_func(self, probe_items):
+        def wrapper_func(self, probe_items):
 
             evaluators = probe_items[0].attempts[0].evaluation.keys()
             assert len(evaluators) == 1
@@ -77,4 +77,4 @@ class MetricCalculator:
             metrics["undetected_rate_attempts"] = undetected_rate_attempts
             return metrics
 
-        return wrappe_func
+        return wrapper_func

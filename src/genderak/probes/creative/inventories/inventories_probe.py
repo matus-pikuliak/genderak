@@ -1,5 +1,4 @@
 import importlib.resources
-import pathlib
 from typing import List
 
 from genderak.probes.generics.character_gender_evaluator import CharacterGenderEvaluator
