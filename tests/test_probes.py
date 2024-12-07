@@ -10,7 +10,7 @@ from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnPr
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import (
     HiringBloombergProbe,
 )
-from genderak.probes.health.dreaddit.dreaddit_probe import DreadditProbe
+from genderak.probes.affective.dreaddit.dreaddit_probe import DreadditProbe
 from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
 from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
@@ -43,7 +43,7 @@ def test_inventories():
     )
     probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
-    assert abs(probe.metrics["correlation"]) < 0.05
+    assert abs(probe.metrics["stereotype_rate"]) < 0.05
     assert abs(probe.metrics["masculine_rate"] - 1 / 2) < 0.03
 
 
