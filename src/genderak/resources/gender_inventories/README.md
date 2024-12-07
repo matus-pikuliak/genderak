@@ -7,7 +7,7 @@ Stereotypes were extracted from _The measurment of psychological androgyny_
 because the BSRI was founded on a conception of the sex-typed person as someone
 who has internalized society's sex-typed standards of desirable behavior for men
 and women, these personality characteristics were selected as masculine or
-feminine on the basis of sex-typed social desirability andnot on the basis of
+feminine on the basis of sex-typed social desirability and not on the basis of
 differential endorsement by males and females as most other inventories have
 done. That is, a characteristic qualified as masculine if it was judged to be
 more desirable in American society for a man than for a woman, and it qualified
