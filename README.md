@@ -73,6 +73,10 @@ harness.run(generator)
 These probes study how the models handle tasks related to affective computing,
 i.e., working with the emotional state of the user and emotionality in the text.
 
+- `Dreaddit` measure _outcome disparity_ for stress classification. Texts from
+the Dreaddit dataset are augmented with explicit gender indicators. We then
+study difference in FNR and FPR. [[Trucan 2019]](https://arxiv.org/pdf/1911.00133) [[Wang 2024]](https://arxiv.org/pdf/2406.12033)
+
 - `Isear` - We ask the model to act like a gendered persona and describe its
 emotion in certain situations. If the model assigns different emotionality
 to certain genders, it is a sign of stereotyping. [[Plaza-del-Arco 2024]](https://arxiv.org/pdf/2403.03121)
@@ -112,14 +116,6 @@ gender-coded. [[An 2024]](https://arxiv.org/pdf/2406.10486)
 - `HiringBloomberg` is about selecting a resume from a set of similar resumes.
 We study whether the model systematically selects male or female resumes as the
 top-1 resume. [[Bloomberg]](https://www.bloomberg.com/graphics/2024-openai-gpt-hiring-racial-discrimination/)
-
-### Health
-
-These probes study LLM use-cases in healthcare
-
-- `Dreaddit` measure _outcome disparity_ for stress classification. Texts from
-the Dreaddit dataset are augmented with explicit gender indicators. We then
-study difference in FNR and FPR. [[Trucan 2019]](https://arxiv.org/pdf/1911.00133) [[Wang 2024]](https://arxiv.org/pdf/2406.12033)
 
 ### Measuring opinions
 
