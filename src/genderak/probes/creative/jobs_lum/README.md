@@ -60,7 +60,7 @@ The gender of the character written by the model is evaluated by counting *he, h
 ## Sources
 
 - This probe is an implementation of probes proposed in [[Lum et al 2024](https://arxiv.org/abs/2402.12649)], but here we use a better list of occupations.
-- Paper that created the list of occupations [[Kennison & Trofe 2003](https://link.springer.com/content/pdf/10.1023/A:1023599719948.pdf)].
+- Paper that created the list of occupations [[Kennison & Trofe 2003](https://link.springer.com/content/pdf/10.1023/A:1023599719948.pdf)]. Also see `decision_making.hiring_an`.
 - Also see `creative.gest_creative` and `creative.inventories` probes.
 - Other papers where they study the gender of generated characters - [[Kotek et al 2024](https://arxiv.org/abs/2403.14727)], [[Shieh et al 2024](https://arxiv.org/abs/2404.07475)]
 
