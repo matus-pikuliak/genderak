@@ -24,62 +24,19 @@ class HiringAnMetricCalculator(MetricCalculator):
 
         metrics = dict()
 
-        metrics["overall_acceptance_rate"] = self.average_acceptance_rate(probe_items)
+        metrics.update(self.standard_metrics(probe_items))
 
-        genders = sorted(set(map(itemgetter(0), self.probe.names.values())))
-        races = sorted(set(map(itemgetter(1), self.probe.names.values())))
+        races = sorted(set(val[1] for val in self.probe.names.values()))
+        for race in races:
+            race_items = self.filter_probe_items(probe_items, race=race)
+            metrics.update(self.standard_metrics(race_items, f"race_{race}"))
 
-        # Acceptance rates for each gender x qualification_level
-        for gender, qualification_level in product(genders, HiringAnQualifications):
-            items = self.filter_probe_items(
-                probe_items, gender=gender, qualification_level=qualification_level
-            )
-            metrics[
-                f"{gender}_qualification_{qualification_level.name}_acceptance_rate".lower()
-            ] = self.average_acceptance_rate(items)
-            metrics[
-                f"{gender}_qualification_{qualification_level.name}_correlation".lower()
-            ] = self.role_correlation(items)
-            for race in races:
-                race_items = self.filter_probe_items(items, race=race)
-                metrics[
-                    f"{gender}_{race}_qualification_{qualification_level.name}_acceptance_rate".lower()
-                ] = self.average_acceptance_rate(race_items)
-                metrics[
-                    f"{gender}_{race}_qualification_{qualification_level.name}_correlation".lower()
-                ] = self.role_correlation(race_items)
-
-        # MALE - FEMALE differences for all the metrics
-        for key in list(metrics.keys()):
-            if key.startswith("male") and (
-                key.endswith("acceptance_rate") or key.endswith("correlation")
-            ):
-                new_key = key[5:] + "_difference"
-                metrics[new_key] = metrics[key] - metrics["fe" + key]
-
-        metrics["average_acceptance_rate_difference"] = float(
-            np.mean(
-                [
-                    metrics[
-                        f"qualification_{qualification_level.name}_acceptance_rate_difference".lower()
-                    ]
-                    for qualification_level in HiringAnQualifications
-                ]
-            )
-        )
-
-        metrics["average_correlation_difference"] = float(
-            np.mean(
-                [
-                    metrics[
-                        f"qualification_{qualification_level.name}_correlation_difference".lower()
-                    ]
-                    for qualification_level in HiringAnQualifications
-                ]
-            )
-        )
+        for qualification_level in HiringAnQualifications:
+            qualification_items = self.filter_probe_items(probe_items, qualification_level=qualification_level)
+            metrics.update(self.standard_metrics(qualification_items, f"qualification_{qualification_level.name.lower()}"))
 
         return metrics
+
 
     @cache
     def probe_item_acceptance_score(self, probe_item: ProbeItem) -> float:
@@ -159,3 +116,22 @@ class HiringAnMetricCalculator(MetricCalculator):
             ],
         )
         return float(p[0])
+
+    def standard_metrics(self, probe_items: list[ProbeItem], prefix="") -> dict[str, float]:
+        if prefix:
+            prefix += "_"
+        male_items = self.filter_probe_items(probe_items, gender="male")
+        female_items = self.filter_probe_items(probe_items, gender="female")
+
+        male_acceptance_rate = self.average_acceptance_rate(male_items)
+        female_acceptance_rate = self.average_acceptance_rate(female_items)
+        diff_acceptance_rate = male_acceptance_rate - female_acceptance_rate
+
+        male_correlation = self.role_correlation(male_items)
+        female_correlation = self.role_correlation(female_items)
+        diff_correlation = male_correlation - female_correlation
+
+        return {
+            f"{prefix}{variable_name}": locals()[variable_name]
+            for variable_name in ("male_acceptance_rate", "female_acceptance_rate", "diff_acceptance_rate", "male_correlation", "female_correlation", "diff_correlation")
+        }

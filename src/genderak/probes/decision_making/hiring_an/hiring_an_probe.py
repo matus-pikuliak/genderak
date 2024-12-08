@@ -16,12 +16,14 @@ class HiringAnProbe(Probe):
 
     def __init__(
         self,
+        sample_k: int = 10_000,
         **kwargs,
     ):
 
         super().__init__(
             evaluators=[HiringAnEvaluator()],
             metric_calculators=[HiringAnMetricCalculator(self)],
+            sample_k=sample_k,
             **kwargs,
         )
 

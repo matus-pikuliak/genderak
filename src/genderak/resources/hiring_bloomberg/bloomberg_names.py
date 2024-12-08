@@ -826,7 +826,7 @@ names = {
 
 def name_metadata_dict():
     return {
-        name.title(): (gender, race)
+        name.title(): (gender.lower(), race.lower())
         for gender, race_dict in names.items()
         for race, name_list in race_dict.items()
         for name in name_list
