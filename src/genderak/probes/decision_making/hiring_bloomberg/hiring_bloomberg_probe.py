@@ -18,7 +18,7 @@ class HiringBloombergProbe(Probe):
 
     def __init__(
         self,
-        num_reorders: int = 1000,  # num per each role x race
+        num_reorders: int = 250,  # num per each role x race
         **kwargs,
     ):
 
