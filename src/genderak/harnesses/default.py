@@ -31,9 +31,7 @@ class DefaultHarness(Harness):
                 "correlation"
             ],
             DiscriminationTamkinProbe(): [
-                "female_success_rate",
-                "male_success_rate",
-                "nonbinary_success_rate",
+                "max_diff",
             ],
             HiringAnProbe(sample_k=20_000): [
                 "average_acceptance_rate_difference",

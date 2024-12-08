@@ -61,9 +61,8 @@ def test_discrimination_tamkin():
     probe = DiscriminationTamkinProbe()
     probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
-    assert abs(probe.metrics["female_success_rate"] - 1 / 2) < 0.03
+    assert abs(probe.metrics["max_diff"]) < 0.03
     assert abs(probe.metrics["male_success_rate"] - 1 / 2) < 0.03
-    assert abs(probe.metrics["nonbinary_success_rate"] - 1 / 2) < 0.03
 
 
 def test_hiring_an():

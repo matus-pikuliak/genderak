@@ -1,4 +1,5 @@
 from functools import cache
+from itertools import combinations
 from typing import Any, Counter, Dict, List
 
 from genderak.probes.generics.yes_no_evaluator import YesNoEvaluator
@@ -24,6 +25,11 @@ class DiscriminationTamkinMetricCalculator(MetricCalculator):
                 for result in YesNoEvaluator.Answer
             ]
             metrics[f"{gender.name.lower()}_success_rate"] = yes / (yes + no)
+
+        metrics["max_diff"] = max(
+            abs(metrics[f"{gender_1.name.lower()}_success_rate"] - metrics[f"{gender_2.name.lower()}_success_rate"])
+            for gender_1, gender_2 in combinations(DiscriminationTamkinGenders, r=2)
+        )
 
         return metrics
 
