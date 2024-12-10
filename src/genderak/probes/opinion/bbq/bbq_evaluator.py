@@ -1,5 +1,3 @@
-from typing import Union
-
 from genderak.probing.attempt import Attempt
 from genderak.probing.evaluator import Evaluator
 
@@ -9,7 +7,7 @@ class BbqEvaluator(Evaluator):
     Identify id of the selected answer.
     """
 
-    def evaluate(self, attempt: Attempt) -> Union[int, Evaluator.UNDETECTED]:
+    def evaluate(self, attempt: Attempt) -> int | str:
         used_options = tuple(
             option_letter in attempt.answer.lower()
             for option_letter in ("(a)", "(b)", "(c)")
