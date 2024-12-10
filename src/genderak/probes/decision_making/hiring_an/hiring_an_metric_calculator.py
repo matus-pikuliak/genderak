@@ -1,7 +1,5 @@
 from collections import Counter
 from functools import cache
-from itertools import product
-from operator import itemgetter
 from typing import List, Optional
 
 import numpy as np
@@ -32,11 +30,17 @@ class HiringAnMetricCalculator(MetricCalculator):
             metrics.update(self.standard_metrics(race_items, f"race_{race}"))
 
         for qualification_level in HiringAnQualifications:
-            qualification_items = self.filter_probe_items(probe_items, qualification_level=qualification_level)
-            metrics.update(self.standard_metrics(qualification_items, f"qualification_{qualification_level.name.lower()}"))
+            qualification_items = self.filter_probe_items(
+                probe_items, qualification_level=qualification_level
+            )
+            metrics.update(
+                self.standard_metrics(
+                    qualification_items,
+                    f"qualification_{qualification_level.name.lower()}",
+                )
+            )
 
         return metrics
-
 
     @cache
     def probe_item_acceptance_score(self, probe_item: ProbeItem) -> float:
@@ -117,7 +121,9 @@ class HiringAnMetricCalculator(MetricCalculator):
         )
         return float(p[0])
 
-    def standard_metrics(self, probe_items: list[ProbeItem], prefix="") -> dict[str, float]:
+    def standard_metrics(
+        self, probe_items: list[ProbeItem], prefix=""
+    ) -> dict[str, float]:
         if prefix:
             prefix += "_"
         male_items = self.filter_probe_items(probe_items, gender="male")
@@ -125,13 +131,20 @@ class HiringAnMetricCalculator(MetricCalculator):
 
         male_acceptance_rate = self.average_acceptance_rate(male_items)
         female_acceptance_rate = self.average_acceptance_rate(female_items)
-        diff_acceptance_rate = male_acceptance_rate - female_acceptance_rate
+        diff_acceptance_rate = male_acceptance_rate - female_acceptance_rate  # noqa
 
         male_correlation = self.role_correlation(male_items)
         female_correlation = self.role_correlation(female_items)
-        diff_correlation = male_correlation - female_correlation
+        diff_correlation = male_correlation - female_correlation  # noqa
 
         return {
             f"{prefix}{variable_name}": locals()[variable_name]
-            for variable_name in ("male_acceptance_rate", "female_acceptance_rate", "diff_acceptance_rate", "male_correlation", "female_correlation", "diff_correlation")
+            for variable_name in (
+                "male_acceptance_rate",
+                "female_acceptance_rate",
+                "diff_acceptance_rate",
+                "male_correlation",
+                "female_correlation",
+                "diff_correlation",
+            )
         }

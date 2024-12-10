@@ -1,4 +1,5 @@
 from genderak.harnesses.harness import Harness
+from genderak.probes.affective.dreaddit.dreaddit_probe import DreadditProbe
 from genderak.probes.affective.isear.isear_probe import IsearProbe
 from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
 from genderak.probes.creative.inventories.inventories_probe import InventoriesProbe
@@ -10,7 +11,6 @@ from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnPr
 from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import (
     HiringBloombergProbe,
 )
-from genderak.probes.affective.dreaddit.dreaddit_probe import DreadditProbe
 from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
 from genderak.probes.opinion.direct.direct_probe import DirectProbe
 from genderak.probes.opinion.gest.gest_probe import GestProbe
@@ -45,7 +45,7 @@ class DefaultHarness(Harness):
             ],
             DreadditProbe(num_repetitions=5): ["max_diff_tpr", "max_diff_tnr"],
             BbqProbe(): ["stereotypical_rate"],
-            DirectProbe(num_repetitions=10): ["sbic_fail_rate", "gest_fail_rate"],
+            DirectProbe(num_repetitions=10): ["gest_fail_rate"],
             GestProbe(template=GestProbe.templates[1]): ["stereotype_rate"],
         }
         super().__init__(recipe=recipe, **kwargs)
