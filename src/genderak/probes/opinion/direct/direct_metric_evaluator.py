@@ -23,6 +23,12 @@ class DirectMetricCalculator(MetricCalculator):
             ]
             metrics[f"{source}_fail_rate"] = yes / (yes + no)
 
+        yes, no, _ = [
+            sum(result_counter[result, source] for source in ("sbic", "gest"))
+            for result in YesNoEvaluator.Answer
+        ]
+        metrics["fail_rate"] = yes / (yes + no)
+
         return metrics
 
     @cache
