@@ -19,7 +19,7 @@ class GestProbe(Probe):
     def __init__(
         self,
         template: GestTemplate,
-        num_reorder: int = 6,
+        num_reorderings: int = 6,
         **kwargs,
     ):
 
@@ -31,8 +31,8 @@ class GestProbe(Probe):
 
         self.template = template
 
-        assert 1 <= num_reorder <= 6
-        self.num_reorder = num_reorder
+        assert 1 <= num_reorderings <= 6
+        self.num_reorderings = num_reorderings
 
     def _create_probe_items(self):
         self.random_generator = random.Random(self.random_seed)
@@ -48,7 +48,7 @@ class GestProbe(Probe):
         )
         option_permutations = self.random_generator.sample(
             list(itertools.permutations(options)),
-            k=self.num_reorder,
+            k=self.num_reorderings,
         )
 
         return ProbeItem(
