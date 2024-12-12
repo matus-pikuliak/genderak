@@ -73,63 +73,65 @@ harness.run(generator)
 These probes study how the models handle tasks related to affective computing,
 i.e., working with the emotional state of the user and emotionality in the text.
 
-- `Dreaddit` measure _outcome disparity_ for stress classification. Texts from
-the Dreaddit dataset are augmented with explicit gender indicators. We then
-study difference in FNR and FPR. [[Trucan 2019]](https://arxiv.org/pdf/1911.00133) [[Wang 2024]](https://arxiv.org/pdf/2406.12033)
+- `Dreaddit` - We ask the model to predict how stressed the author of a text is. 
+We study whether the model exhibits different perceptions of stress based on the 
+gender of the author. [Documentation](./src/genderak/probes/affective/dreaddit/README.md).
 
-- `Isear` - We ask the model to act like a gendered persona and describe its
-emotion in certain situations. If the model assigns different emotionality
-to certain genders, it is a sign of stereotyping. [[Plaza-del-Arco 2024]](https://arxiv.org/pdf/2403.03121)
+- `Isear` - We ask the model to role-play as a person of a specific gender and 
+inquire about its emotional response to various events. We study whether the 
+model exhibits different perceptions of emotionality based on gender. 
+[Documentation](./src/genderak/probes/affective/isear/README.md).
 
 ### Creative writing
 
 These probes study how the models use stereotypes when they are
 prompted to do creative writing.
 
-- `GestCreative` - We ask the model to write a character profile based on a
-stereotypical statement (e.g., "I am emotional"). We study whether the gender
-of the character matches the stereotypical gender (in this case female). [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
+- `GestCreative` -We ask the model to generate a character profile for a novel 
+based on a motto. The mottos are associated with various gender stereotypes. We 
+study what gender does the model use for the character. [Documentation](./src/genderak/probes/creative/gest_creative/README.md).
 
-- `Inventories` - We ask the model to write a character profile based on a
-stereotypical attribute (e.g., emotional). We study whether the gender of the
-character matches the stereotypical gender (in this case female). The
-inventories are based on social science literature. See `resources/gender_inventories/README.md`
-for sources.
+- `Inventories` - We ask the model to generate a character profile based on a 
+simple description. The descriptions come from gender inventories and are 
+associated with various gender stereotypes. We study what gender does the model 
+use for the character. [Documentation](./src/genderak/probes/creative/inventories/README.md).
 
-- `JobsLum` - We ask the model to write a character profile based on a job. We
-study whether the gender of the character matches the stereotypical gender
-(E.g., are _nurses_ female). [[Lum 2024]](https://arxiv.org/pdf/2402.12649)
+- `JobsLum` - We ask the model to generate a character profile based on an 
+occupation. We compare the gender of the generated characters with the 
+stereotypically gender associated with the occupations. [Documentation](./src/genderak/probes/creative/jobs_lum/README.md).
 
 ### Decision making
 
 These probes study whether the models discriminate against certain genders
 when they are prompted to make a decision about typical life situations.
 
-- `DiscriminationTamkin` is a set of prompts from various life situations
-(e.g., hiring, mortgage, publishing) when the model is asked to make a binary
-final decision about a person. We study whether the gender changes the result. [[Tamkin 2023]](https://arxiv.org/pdf/2312.03689)
+- `DiscriminationTamkin` - The model is asked to make a yes-or-no decision about 
+various questions (e.g., should a person get a loan, should a person get a job 
+offer). The gender of the person is specified. We study whether the model gives 
+better outcomes to any genders. [Documentation](./src/genderak/probes/decision_making/discrimination_tamkin/README.md).
 
-- `HiringAn` is about accepting or refusing job candidates. We study whether
-the (gender-coded) name of the candidate changes the result. The jobs are also
-gender-coded. [[An 2024]](https://arxiv.org/pdf/2406.10486)
+- `HiringAn` - The model is asked about a candidate for a job. The candidate is 
+described using a gender-coded name. We study how the candidate's name 
+correlates with the stereotypical gender associated with the job. [Documentation](./src/genderak/probes/decision_making/hiring_an/README.md).
 
-- `HiringBloomberg` is about selecting a resume from a set of similar resumes.
-We study whether the model systematically selects male or female resumes as the
-top-1 resume. [[Bloomberg]](https://www.bloomberg.com/graphics/2024-openai-gpt-hiring-racial-discrimination/)
+- `HiringBloomberg` - The model is asked to select rank candidates from a list 
+of CVs. The CVs contain gender-coded name. We study which genders tend to win 
+for different occupations. [Documentation](./src/genderak/probes/decision_making/hiring_bloomberg/README.md).
 
-### Measuring opinions
+### Assessing opinions
 
-These probes study what are the opinions of the models when asked.
+These probes study what the opinions of the models are when asked.
 
-- `BBQ` is a dataset of questions that can be solved either logically or
-stereotypically. The probe measure how much stereotypical reasoning is used.
-[[Parrish 2021]](https://arxiv.org/pdf/2110.08193)
+- `BBQ` - The BBQ dataset contains trick multiple-choice questions that test 
+whether the model uses gender-stereotypical reasoning. [Documentation](./src/genderak/probes/opinion/bbq/README.md).
 
-- `Direct` is a set of gender stereotypes (e.g., _women are emotional_) and we 
-ask the model whether it agrees or disagrees wit them. [[Sap 2020]](https://aclanthology.org/2020.acl-main.486.pdf) [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
+- `Direct` - We ask the model whether it agrees with various steretypical 
+statements about genders.
+ [Documentation](./src/genderak/probes/opinion/direct/README.md).
 
-- `Gest` is a set of stereotypical statements in the first person, and we ask
-the model what gender it assigns to these statements. [[Pikuliak 2023]](https://arxiv.org/abs/2311.18711)
+- `Gest` - We ask the model questions that can be answered using either logical 
+or stereotypical reasoning. We observe how often stereotypical reasoning is 
+used. [Documentation](./src/genderak/probes/opinion/gest/README.md).
 
 
 ## Design philosophy
