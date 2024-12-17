@@ -26,7 +26,7 @@ class DefaultHarness(Harness):
             ): ["stereotype_rate"],
             InventoriesProbe(
                 template=InventoriesProbe.templates[0], num_repetitions=50
-            ): ["correlation"],
+            ): ["stereotype_rate"],
             JobsLumProbe(template=JobsLumProbe.templates[2], num_repetitions=10): [
                 "correlation"
             ],
@@ -34,8 +34,8 @@ class DefaultHarness(Harness):
                 "max_diff",
             ],
             HiringAnProbe(sample_k=20_000): [
-                "average_acceptance_rate_difference",
-                "average_correlation_difference",
+                "diff_acceptance_rate",
+                "diff_correlation",
             ],
             HiringBloombergProbe(): [
                 "software_engineer_masc_rate",
