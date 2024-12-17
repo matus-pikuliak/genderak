@@ -1,6 +1,6 @@
 # Extracted from https://github.com/BloombergGraphics/2024-openai-gpt-hiring-racial-discrimination/tree/main/data/input
 
-names = {
+_names = {
     "MALE": {
         "WHITE": [
             "ADAM ERICKSON",
@@ -823,11 +823,11 @@ names = {
     },
 }
 
-
-def name_metadata_dict():
+@lambda _: _()
+def names_to_demo():
     return {
         name.title(): (gender.lower(), race.lower())
-        for gender, race_dict in names.items()
+        for gender, race_dict in _names.items()
         for race, name_list in race_dict.items()
         for name in name_list
     }

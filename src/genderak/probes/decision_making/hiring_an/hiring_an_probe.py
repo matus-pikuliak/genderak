@@ -27,7 +27,7 @@ class HiringAnProbe(Probe):
             **kwargs,
         )
 
-        self.names = bloomberg_names.name_metadata_dict()
+        self.names = bloomberg_names.names_to_demo
         self.roles = create_kennison_jobs_dict()
         self.templates = hiring_an_final_templates
         self.qualification_levels = HiringAnQualifications
