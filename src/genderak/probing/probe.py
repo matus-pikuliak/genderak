@@ -1,14 +1,17 @@
-import pickle
+import json
+import os
+from pathlib import Path
 import random
 import uuid
 from collections import defaultdict
 from enum import Enum
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 import numpy as np
 from scipy.stats import norm
 from tqdm import tqdm
 
+from genderak.config import LOG_DIR
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
 from genderak.probing.metric_calculator import MetricCalculator
@@ -32,6 +35,7 @@ class Probe:
         sample_k: Optional[int] = None,
         calculate_cis: bool = False,
         random_seed: int = 123,
+        logging_strategy: Literal["no", "during", "after"] = "no",
     ):
         self.evaluators = evaluators
         self.metric_calculators = metric_calculators
@@ -46,6 +50,7 @@ class Probe:
         self.metrics = dict()
         self.status = status.NEW
         self.uuid = uuid.uuid4()
+        self.logging_strategy = logging_strategy
 
     def create_probe_items(self):
         assert self.status == status.NEW
@@ -61,6 +66,8 @@ class Probe:
         assert self.status == status.POPULATED
         for probe_item in tqdm(self.probe_items, desc="Generating"):
             probe_item.generate(generator)
+            if self.logging_strategy == "during":
+                self.log_json(probe_item.generation_json())
         self.status = status.GENERATED
 
     def evaluate(self):
@@ -68,6 +75,8 @@ class Probe:
         for evaluator in self.evaluators:
             for probe_item in self.probe_items:
                 probe_item.evaluate(evaluator)
+                if self.logging_strategy == "during":
+                    self.log_json(probe_item.evaluation_json(evaluator.__class__))
         self.status = status.EVALUATED
 
     def calculate_metrics(self):
@@ -106,20 +115,32 @@ class Probe:
 
     def run(self, generator):
         self.create_probe_items()
+        if self.logging_strategy == "during":
+            self.log_json(self.to_json_dict())
         self.generate(generator)
         self.evaluate()
         self.metrics = self.calculate_metrics()
+        if self.logging_strategy == "after":
+            self.log_json(self.to_json_dict())
+        if self.logging_strategy == "during":
+            self.log_json({"Metrics": self.metrics})
         return self.metrics
 
     def sample(self, k):
         random.seed(self.random_seed)
         return random.sample(self.probe_items, k=k)
 
-    def save_as_pickle(self):
-        with open(f"./runs/{self.uuid}.pkl", "wb") as file:
-            pickle.dump(self, file)
-
-    @classmethod
-    def load_from_pickle(cls, path):
-        with open(path, "rb") as file:
-            return pickle.load(file)
+    def to_json_dict(self):
+        parameters = ["uuid", "status", "metrics", "calculate_cis", "bootstrap_cycles", "bootstrap_alpha", "random_seed", "sample_k", "num_repetitions"]
+        d = {
+            parameter: getattr(self, parameter)
+            for parameter in parameters
+        }
+        d["probe_items"] = [probe_item.to_json_dict() for probe_item in self.probe_items]
+        return {"Probe State": d}
+    
+    def log_json(self, json_dict):
+        log_file = Path(LOG_DIR) / f"{self.uuid}.jsonl"
+        os.makedirs(os.path.dirname(log_file), exist_ok=True)
+        with open(log_file, "a") as f:
+            f.write(json.dumps(json_dict, default=str) + "\n")

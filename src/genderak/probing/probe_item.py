@@ -1,4 +1,5 @@
 from typing import Any, Dict, List, Optional
+import uuid
 
 from genderak.generators.generator import Generator
 from genderak.probing.attempt import Attempt
@@ -25,9 +26,10 @@ class ProbeItem:
         self.prompts = prompts
         self.num_repetitions = num_repetitions
         self.metadata = metadata
+        self.uuid = uuid.uuid4()
 
         self.attempts: List[Attempt] = [
-            Attempt(prompt, repetition_id)  #
+            Attempt(prompt, repetition_id)
             for prompt in self.prompts
             for repetition_id in range(self.num_repetitions)
         ]
@@ -35,7 +37,37 @@ class ProbeItem:
     def generate(self, generator: Generator) -> None:
         for attempt in self.attempts:
             attempt.generate(generator)
+            # self.log(generation)
 
     def evaluate(self, evaluator: Evaluator) -> None:
         for attempt in self.attempts:
             attempt.evaluate(evaluator)
+            # self.log(evaluation)
+
+    def to_json_dict(self):
+        parameters = ["uuid", "num_repetitions", "metadata"]
+        d = {
+            parameter: getattr(self, parameter)
+            for parameter in parameters
+        }
+        d["prompts"] = [prompt.to_json_dict() for prompt in self.prompts]
+        d["attempts"] = [attempt.to_json_dict() for attempt in self.attempts]
+        return d
+    
+    def generation_json(self):
+        return {"Probe Item Generation":[
+            {
+                "uuid": attempt.uuid,
+                "answer": attempt.answer,
+            }
+            for attempt in self.attempts
+        ]}
+    
+    def evaluation_json(self, evaluator):
+        return {"Probe Item Evaluation":[
+            {
+                "uuid": attempt.uuid,
+                "evaluation": {evaluator.__module__ + "." + evaluator.__name__: attempt.evaluation[evaluator]},
+            }
+            for attempt in self.attempts
+        ]}

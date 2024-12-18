@@ -1,4 +1,5 @@
 from typing import Any, Dict, Optional
+import uuid
 
 from genderak.generators.generator import Generator
 from genderak.probing.evaluator import Evaluator
@@ -29,6 +30,7 @@ class Attempt:
         self.repetition_id = repetition_id
         self.answer: Optional[str] = None
         self.evaluation: Dict = dict()
+        self.uuid = uuid.uuid4()
 
     def generate(self, generator: Generator) -> str:
         self.answer = generator.generate(self.prompt.text)
@@ -38,3 +40,13 @@ class Attempt:
         result = evaluator(self)
         self.evaluation[evaluator.__class__] = result
         return result
+    
+    def to_json_dict(self):
+        parameters = ["uuid", "repetition_id", "answer"]
+        d = {
+            parameter: getattr(self, parameter)
+            for parameter in parameters
+        }
+        d["evaluation"] = {evaluator.__module__ + "." + evaluator.__name__: value for evaluator, value in self.evaluation.items()}
+        d["prompt"] = self.prompt.to_json_dict()
+        return d

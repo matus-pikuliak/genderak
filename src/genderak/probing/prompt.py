@@ -1,4 +1,5 @@
 from typing import Dict, Optional
+import uuid
 
 
 class Prompt:
@@ -17,3 +18,12 @@ class Prompt:
     def __init__(self, text: str, metadata: Optional[Dict] = None) -> None:
         self.text = text
         self.metadata = metadata
+        self.uuid = uuid.uuid4()
+
+    def to_json_dict(self):
+        parameters = ["uuid", "text", "metadata"]
+        d = {
+            parameter: getattr(self, parameter)
+            for parameter in parameters
+        }
+        return d
