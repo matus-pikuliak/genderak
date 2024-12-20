@@ -1,11 +1,11 @@
-# genderak - Evaluation suite for gender biases in LLMs
+# GenderBench - Evaluation suite for gender biases in LLMs
 
 
-`genderak` is an evaluation suite that comprehensively benchmarks gender biases
-in large language models (LLMs). `genderak` aims to identify unfair behavior
+`GenderBench` is an evaluation suite that comprehensively benchmarks gender biases
+in large language models (LLMs). `GenderBench` aims to identify unfair behavior
 with respect to the gender of the user or the gender of people mentioned
-in the processed texts. `genderak` consists of many `Probes`, each focused on
-different use case, domain, bias, and so on. `genderak` mostly aggregates
+in the processed texts. `GenderBench` consists of many `Probes`, each focused on
+different use case, domain, bias, and so on. `GenderBench` mostly aggregates
 existing methodologies, but it also contains original and novel ideas.
 
 ## Installation
@@ -13,12 +13,12 @@ existing methodologies, but it also contains original and novel ideas.
 You can install the package from this repository:
 
 ```
-pip install git+https://github.com/matus-pikuliak/genderak
+pip install git+https://github.com/matus-pikuliak/gender_bench
 ```
 
 ## Usage
 
-`genderak` can be used to evaluate an arbitrary text generator, i.e., anything
+`GenderBench` can be used to evaluate an arbitrary text generator, i.e., anything
 that is able to call `generate(input: str) -> str` method.
 
 ### Probes
@@ -27,8 +27,8 @@ The basic use case is to evaluate a `generator` with a single probe:
 ```python
 # GestCreative asks model to write a character profile based on a stereotypical
 # prompt. Then it analyzes the genders of the generated characters.
-from genderak.generators.random_generator import RandomGenerator
-from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
+from gender_bench.generators.random_generator import RandomGenerator
+from gender_bench.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
 
 
 generator = RandomGenerator(["He was a punk", "She did ballet"])
@@ -54,7 +54,7 @@ deemed important for an experiment. Currently, there is only one harness in the
 repository, the `DefaultHarness`:
 
 ```python
-from genderak.harnesses.default import DefaultHarness
+from gender_bench.harnesses.default import DefaultHarness
 
 harness = DefaultHarness(calculate_cis=True)
 harness.run(generator)
@@ -75,12 +75,12 @@ i.e., working with the emotional state of the user and emotionality in the text.
 
 - `Dreaddit` - We ask the model to predict how stressed the author of a text is. 
 We study whether the model exhibits different perceptions of stress based on the 
-gender of the author. [Documentation](./src/genderak/probes/affective/dreaddit/README.md).
+gender of the author. [Documentation](./src/gender_bench/probes/affective/dreaddit/README.md).
 
 - `Isear` - We ask the model to role-play as a person of a specific gender and 
 inquire about its emotional response to various events. We study whether the 
 model exhibits different perceptions of emotionality based on gender. 
-[Documentation](./src/genderak/probes/affective/isear/README.md).
+[Documentation](./src/gender_bench/probes/affective/isear/README.md).
 
 ### Creative writing
 
@@ -89,16 +89,16 @@ prompted to do creative writing.
 
 - `GestCreative` -We ask the model to generate a character profile for a novel 
 based on a motto. The mottos are associated with various gender stereotypes. We 
-study what gender does the model use for the character. [Documentation](./src/genderak/probes/creative/gest_creative/README.md).
+study what gender does the model use for the character. [Documentation](./src/gender_bench/probes/creative/gest_creative/README.md).
 
 - `Inventories` - We ask the model to generate a character profile based on a 
 simple description. The descriptions come from gender inventories and are 
 associated with various gender stereotypes. We study what gender does the model 
-use for the character. [Documentation](./src/genderak/probes/creative/inventories/README.md).
+use for the character. [Documentation](./src/gender_bench/probes/creative/inventories/README.md).
 
 - `JobsLum` - We ask the model to generate a character profile based on an 
 occupation. We compare the gender of the generated characters with the 
-stereotypically gender associated with the occupations. [Documentation](./src/genderak/probes/creative/jobs_lum/README.md).
+stereotypically gender associated with the occupations. [Documentation](./src/gender_bench/probes/creative/jobs_lum/README.md).
 
 ### Decision making
 
@@ -108,30 +108,30 @@ when they are prompted to make a decision about typical life situations.
 - `DiscriminationTamkin` - The model is asked to make a yes-or-no decision about 
 various questions (e.g., should a person get a loan, should a person get a job 
 offer). The gender of the person is specified. We study whether the model gives 
-better outcomes to any genders. [Documentation](./src/genderak/probes/decision_making/discrimination_tamkin/README.md).
+better outcomes to any genders. [Documentation](./src/gender_bench/probes/decision_making/discrimination_tamkin/README.md).
 
 - `HiringAn` - The model is asked about a candidate for a job. The candidate is 
 described using a gender-coded name. We study how the candidate's name 
-correlates with the stereotypical gender associated with the job. [Documentation](./src/genderak/probes/decision_making/hiring_an/README.md).
+correlates with the stereotypical gender associated with the job. [Documentation](./src/gender_bench/probes/decision_making/hiring_an/README.md).
 
 - `HiringBloomberg` - The model is asked to select rank candidates from a list 
 of CVs. The CVs contain gender-coded name. We study which genders tend to win 
-for different occupations. [Documentation](./src/genderak/probes/decision_making/hiring_bloomberg/README.md).
+for different occupations. [Documentation](./src/gender_bench/probes/decision_making/hiring_bloomberg/README.md).
 
 ### Assessing opinions
 
 These probes study what the opinions of the models are when asked.
 
 - `BBQ` - The BBQ dataset contains trick multiple-choice questions that test 
-whether the model uses gender-stereotypical reasoning. [Documentation](./src/genderak/probes/opinion/bbq/README.md).
+whether the model uses gender-stereotypical reasoning. [Documentation](./src/gender_bench/probes/opinion/bbq/README.md).
 
 - `Direct` - We ask the model whether it agrees with various steretypical 
 statements about genders.
- [Documentation](./src/genderak/probes/opinion/direct/README.md).
+ [Documentation](./src/gender_bench/probes/opinion/direct/README.md).
 
 - `Gest` - We ask the model questions that can be answered using either logical 
 or stereotypical reasoning. We observe how often stereotypical reasoning is 
-used. [Documentation](./src/genderak/probes/opinion/gest/README.md).
+used. [Documentation](./src/gender_bench/probes/opinion/gest/README.md).
 
 
 ## Design philosophy

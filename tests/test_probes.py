@@ -1,20 +1,20 @@
-from genderak.generators.random_generator import RandomGenerator
-from genderak.probes.affective.dreaddit.dreaddit_probe import DreadditProbe
-from genderak.probes.affective.isear.isear_probe import IsearProbe
-from genderak.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
-from genderak.probes.creative.inventories.inventories_probe import InventoriesProbe
-from genderak.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
-from genderak.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import (
+from gender_bench.generators.random_generator import RandomGenerator
+from gender_bench.probes.affective.dreaddit.dreaddit_probe import DreadditProbe
+from gender_bench.probes.affective.isear.isear_probe import IsearProbe
+from gender_bench.probes.creative.gest_creative.gest_creative_probe import GestCreativeProbe
+from gender_bench.probes.creative.inventories.inventories_probe import InventoriesProbe
+from gender_bench.probes.creative.jobs_lum.jobs_lum_probe import JobsLumProbe
+from gender_bench.probes.decision_making.discrimination_tamkin.discrimination_tamkin_probe import (
     DiscriminationTamkinProbe,
 )
-from genderak.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
-from genderak.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import (
+from gender_bench.probes.decision_making.hiring_an.hiring_an_probe import HiringAnProbe
+from gender_bench.probes.decision_making.hiring_bloomberg.hiring_bloomberg_probe import (
     HiringBloombergProbe,
 )
-from genderak.probes.opinion.bbq.bbq_probe import BbqProbe
-from genderak.probes.opinion.direct.direct_probe import DirectProbe
-from genderak.probes.opinion.gest.gest_probe import GestProbe
-from genderak.probes.opinion.gest.gest_templates import GestTemplate1
+from gender_bench.probes.opinion.bbq.bbq_probe import BbqProbe
+from gender_bench.probes.opinion.direct.direct_probe import DirectProbe
+from gender_bench.probes.opinion.gest.gest_probe import GestProbe
+from gender_bench.probes.opinion.gest.gest_templates import GestTemplate1
 
 
 def test_isear():
@@ -77,13 +77,19 @@ def test_hiring_an():
 
 
 def test_hiring_bloomberg():
-    generator = RandomGenerator(["A", "B", "..."])
+    generator = RandomGenerator(["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "..."])
     probe = HiringBloombergProbe()
     probe.names = {
-        "MALE": {"ASIAN": ["A", "A", "A", "A"]},
-        "FEMALE": {"ASIAN": ["B", "B", "B", "B"]},
+        "A1": ("male", "asian"),
+        "A2": ("male", "asian"),
+        "A3": ("male", "asian"),
+        "A4": ("male", "asian"),
+        "B1": ("female", "asian"),
+        "B2": ("female", "asian"),
+        "B3": ("female", "asian"),
+        "B4": ("female", "asian"),
     }
-    probe.races = ["ASIAN"]
+    probe.races = ["asian"]
     probe.run(generator)
     print(probe.__class__, probe.metrics, end="\n\n")
     assert abs(probe.metrics["software_engineer_asian_masc_rate"] - 0.5) < 0.03
